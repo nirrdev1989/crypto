@@ -4,6 +4,35 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(240, 28, 99);
+}
+
+.a.active, .a.p-2:focus {
+  color: rgb(240, 28, 99);
+}
+
+.card {
+  border-radius: 2px;
+}
+
+.app {
+  background-image: url("https://www.cpacanada.ca/-/media/site/operational/rg-research-guidance-and-support/images/02250-rg.jpg");
+  width: 100%;
+  min-height: 700px;
+  background-size: cover;
+  position: relative;
+}
+
+.btn {
+  border-radius: 2px;
 }
 
 code {

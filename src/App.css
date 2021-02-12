@@ -1,0 +1,18 @@
+.card-chart-header {
+   display: flex;
+   justify-content: space-between;
+}
+
+.coin-actions {
+   width: 50%;
+   box-sizing: border-box;
+   align-items: center;
+   display: flex;
+}
+
+.loader-con {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 50vh;
+}
