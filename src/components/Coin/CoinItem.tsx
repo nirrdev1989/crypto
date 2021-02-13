@@ -1,19 +1,17 @@
 import React from 'react'
-import { coninsBaseInfo } from '../../localdata/local.data'
-import Chart from '../Chart'
+import Chart from '../Chart/Chart'
 import Card from '../Wrappers/Card'
-import { CoinBaseInfo, CoinHistory } from '../../models/Coin';
+import { CoinBaseInfo } from '../../models/Coin';
 import Loader from '../Loader';
 import { RootState } from '../../redux/store';
-import { fetchCoinAction, selectCoinHistoryAction } from '../../redux/coins/actions';
+import { fetchCoinAction } from '../../redux/coins/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import CoinDescription from './CoinDescription';
+import CoinHeader from './CoinHeader';
 
 interface Props {
    initialCoin: CoinBaseInfo
 }
-
-let allHistory = {} as CoinHistory
 
 function CoinItem({ initialCoin }: Props) {
    const status = useSelector((state: RootState) => state.coin)
@@ -22,23 +20,22 @@ function CoinItem({ initialCoin }: Props) {
    const [coinSelectedId, setCoinSelectedId] = React.useState<number>(initialCoin.id)
    const [mainStatus, setMainStatus] = React.useState<boolean>(true)
 
-   function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
+   function handleChangeCoin(event: React.ChangeEvent<HTMLSelectElement>) {
       const { value } = event.target
       setCoinSelectedId(() => Number(value))
    }
 
+   function handleChart() {
+      setMainStatus(() => false)
+   }
 
-   function handleChangeDate(event: React.ChangeEvent<HTMLSelectElement>) {
-      const { value } = event.target
-      dispatch(selectCoinHistoryAction(value))
+   function handleDescription() {
+      setMainStatus(() => true)
    }
 
    React.useEffect(() => {
       dispatch(fetchCoinAction(coinSelectedId))
-
-      // fetchCoin(coinSelectedId)
    }, [coinSelectedId])
-
 
    let content
 
@@ -47,7 +44,7 @@ function CoinItem({ initialCoin }: Props) {
    }
 
    if (status.error !== '') {
-      content = <p>Error</p>
+      content = <p style={{ textAlign: 'center' }}>Error</p>
    }
 
    if (!status.loading && status.error === '') {
@@ -58,45 +55,21 @@ function CoinItem({ initialCoin }: Props) {
    return (
       <Card>
          <div className="card-header">
-            <h5 className="my-0 fw-normal card-chart-header">
-               <div className="coin-actions">
-                  <select className="form-select-sm" onChange={handleChange} disabled={status.loading}>
-                     {coninsBaseInfo.map((c) => {
-                        return <option
-                           value={c.id}
-                           key={c.name + c.id}
-                        >
-                           {c.name}
-                        </option>
-                     })}
-                  </select>&nbsp;
-                  <button
-                     disabled={status.loading}
-                     onClick={() => setMainStatus(() => false)}
-                     style={{ backgroundColor: status.coin?.color, color: 'white' }}
-                     className="btn  btn-sm"
-                  >
-                     History
-                  </button>
-               </div>
-               <img
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => setMainStatus(() => true)}
-                  src={status.coin?.iconUrl}
-                  width="30"
-                  height="30"
-                  alt="Coin"
-               />
-            </h5>
+            <CoinHeader
+               loadStatus={status.loading}
+               currentPrice={status.currentPrice}
+               handleChangeCoin={handleChangeCoin}
+               handleChart={handleChart}
+               handleDescription={handleDescription}
+               iconUrl={status.coin.iconUrl}
+               color={status.coin.color}
+            />
          </div>
          <div className="card-body">
             {!mainStatus ?
                <Chart
-                  coinHistory={status.dateSelectedItems}
                   coinName={status.coin.name}
                   color={status.coin.color}
-                  handleChangeDate={handleChangeDate}
-                  historyDatesLength={status.datesCount}
                /> : content
             }
          </div>

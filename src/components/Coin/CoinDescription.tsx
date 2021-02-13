@@ -17,10 +17,7 @@ function CoinDescription({ coin }: Props) {
             {coin?.links.map((link, i) => {
                return (
                   <p key={link.name + i}>
-                     {link.type}: &nbsp;
-                     <a href={link.url} target="_blank">
-                        {link.name}
-                     </a>
+                     {link.type}: &nbsp;<a href={link.url} target="_blank">{link.name}</a>
                   </p>
                )
             })}
@@ -31,4 +28,4 @@ function CoinDescription({ coin }: Props) {
    return null
 }
 
-export default CoinDescription
+export default React.memo(CoinDescription)

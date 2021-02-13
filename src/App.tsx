@@ -8,8 +8,6 @@ import Loader from './components/Loader';
 import Container from './components/Wrappers/Container';
 import './App.css';
 
-
-
 function App() {
    return (
       <BrowserRouter>

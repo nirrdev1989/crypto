@@ -37,7 +37,10 @@ export interface CoinHistoryItem {
 
 export interface CoinHistory {
    [key: string]: {
+      firstPriceOfDay: number
+      lastPriceOfDay: number
       array: CoinHistoryItem[]
+      change: number
    }
 }
 

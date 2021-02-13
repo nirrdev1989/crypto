@@ -11,6 +11,12 @@ export function countDates(count: number): string[] {
    return datesArray
 }
 
-export function dateFormat() {
-
+export function fixNumber(val: number | string, count: number): number {
+   let num = val
+   if (typeof val === 'string') {
+      num = parseFloat(val)
+   } else {
+      num = val
+   }
+   return Number(num.toFixed(count))
 }

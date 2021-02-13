@@ -10,15 +10,4 @@ export function fectData(url: string, callData: Function) {
          console.log(error)
          callData(error.message, null)
       })
-   // try {
-   //    const data = await fetch(url)
-   //    const toJson = await data.json()
-   //    // console.log(toJson, 'API')
-   //    callData(toJson, null)
-   // } catch (error) {
-   //    console.log(error.message)
-   //    let newError = new Error('Request fail')
-   //    callData(null, newError)
-
-   // }
 }

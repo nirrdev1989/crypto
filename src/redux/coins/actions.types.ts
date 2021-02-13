@@ -16,6 +16,9 @@ export interface FetchCoinSeccessAsyncAction {
    payload: {
       coin: Coin,
       history: CoinHistory
+      currentPrice: number,
+      lastPrice: number
+      change: number
    }
 }
 
