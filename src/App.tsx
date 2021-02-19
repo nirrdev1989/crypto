@@ -5,36 +5,43 @@ import HomePage from './pages/Home.page';
 import MarketingPage from './pages/Marketing.page';
 import Header from './components/Header';
 import Loader from './components/Loader';
+import Footer from './components/Footer'
 import Container from './components/Wrappers/Container';
 import './App.css';
 
+// console.log(process.env, mode)
+
+
 function App() {
+
+
    return (
       <BrowserRouter>
          <Header />
          <div className="app">
-            <Container>
-               <Switch>
-                  <Suspense fallback={<Loader />}>
-                     <Route
-                        path="/"
-                        exact={true}
-                        render={() => <HomePage />}
-                     />
-                     {/* <Route
-                        path="/history"
-                        exact={true}
-                        render={() => <HistoryPage />}
-                     />
-                     <Route
-                        path="/markets"
-                        exact={true}
-                        render={() => <MarketingPage />}
-                     /> */}
-                  </Suspense>
-               </Switch>
-            </Container>
+            {/* <Container> */}
+            <Switch>
+               <Suspense fallback={<Loader />}>
+                  <Route
+                     path="/"
+                     exact={true}
+                     render={() => <HomePage />}
+                  />
+                  <Route
+                     path="/history"
+                     exact={true}
+                     render={() => <HistoryPage />}
+                  />
+                  <Route
+                     path="/markets"
+                     exact={true}
+                     render={() => <MarketingPage />}
+                  />
+               </Suspense>
+            </Switch>
+            {/* </Container> */}
          </div>
+         <Footer />
       </BrowserRouter>
    );
 }
@@ -42,52 +49,39 @@ function App() {
 export default App;
 
 
-// const arr = [
-//    { price: "37619.16", date: "5.2.2021" },
-//    { price: "37878.13", date: "5.2.2021" },
-//    { price: "38079.38", date: "5.2.2021" },
-//    { price: "38027.28", date: "5.2.2021" },
-//    { price: "37911.16", date: "5.2.2021" },
-//    { price: "37757.01", date: "5.2.2021" },
-//    { price: "37700.29", date: "5.2.2021" },
-//    { price: "37465.29", date: "5.2.2021" },
-//    { price: "37521.51", date: "5.2.2021" },
-//    { price: "37681.21", date: "5.2.2021" },
-//    { price: "37747.97", date: "6.2.2021" },
-//    { price: "37795.43", date: "6.2.2021" },
-//    { price: "38047.63", date: "6.2.2021" },
-//    { price: "38732.45", date: "6.2.2021" },
-//    { price: "38584.11", date: "6.2.2021" },
-//    { price: "39391.28", date: "6.2.2021" },
-//    { price: "39249.88", date: "6.2.2021" },
-//    { price: "39052.17", date: "6.2.2021" },
-//    { price: "39081.21", date: "6.2.2021" },
-//    { price: "39352.84", date: "6.2.2021" },
-//    { price: "39330.43", date: "6.2.2021" },
-//    { price: "39489.36", date: "6.2.2021" },
-//    { price: "39851.57", date: "6.2.2021" },
-//    { price: "39998.74", date: "6.2.2021" },
-//    { price: "40331.96", date: "6.2.2021" },
-//    { price: "40232.18", date: "6.2.2021" },
-//    { price: "40243.80", date: "6.2.2021" },
-//    { price: "40381.89", date: "6.2.2021" },
-//    { price: "40808.12", date: "6.2.2021" },
-//    { price: "40630.58", date: "6.2.2021" },
-//    { price: "40375.07", date: "6.2.2021" },
-//    { price: "40336.64", date: "6.2.2021" },
-//    { price: "39975.49", date: "6.2.2021" },
-//    { price: "39913.04", date: "6.2.2021" },
-//    { price: "40179.60", date: "7.2.2021" },
-//    { price: "39543.69", date: "7.2.2021" },
-//    { price: "39318.55", date: "7.2.2021" },
-//    { price: "39435.80", date: "7.2.2021" },
-//    { price: "38731.21", date: "7.2.2021" },
-//    { price: "38755.65", date: "7.2.2021" },
-//    { price: "38628.01", date: "7.2.2021" },
-//    { price: "38356.72", date: "7.2.2021" },
-//    { price: "38705.07", date: "7.2.2021" },
-//    { price: "38771.32", date: "7.2.2021" },
-//    { price: "39188.27", date: "7.2.2021" }
+// const data = [
+//    { price: '38821.0466289791', timestamp: 1612738800000 },
+//    { price: '39007.2715658336', timestamp: 1612742400000 },
+//    { price: '38803.7156432158', timestamp: 1612746000000 },
+//    { price: '38582.4132171405', timestamp: 1612749600000 },
+//    { price: '38359.2798893482', timestamp: 1612753200000 },
+//    { price: '38263.7752237507', timestamp: 1612756800000 },
+//    { price: '38698.1344144697', timestamp: 1612760400000 },
+//    { price: '38893.1895367936', timestamp: 1612764000000 },
+//    { price: '39187.2823920769', timestamp: 1612767600000 },
+//    { price: '39338.0318738744', timestamp: 1612771200000 },
+//    { price: '39294.5774360377', timestamp: 1612774800000 },
+//    { price: '39115.6266807171', timestamp: 1612778400000 },
+//    { price: '39480.2270710216', timestamp: 1612782000000 },
+//    { price: '39524.8512025019', timestamp: 1612785600000 },
+//    { price: '41614.10857206', timestamp: 1612789200000 },
+//    { price: '43764.5374639776', timestamp: 1612792800000 },
+//    { price: '43457.9679769723', timestamp: 1612796400000 },
+//    { price: '43598.8913395273', timestamp: 1612800000000 },
+//    { price: '43006.7860828431', timestamp: 1612803600000 },
+//    { price: '42895.7381945117', timestamp: 1612807200000 },
+//    { price: '42702.8843209942', timestamp: 1612810800000 },
+//    { price: '42669.2377850318', timestamp: 1612814400000 },
+//    { price: '43893.1899431548', timestamp: 1612818000000 },
+//    { price: '44317.4789775569', timestamp: 1612821600000 },
+//    { price: '44794.1419173439', timestamp: 1612825200000 },
+//    { price: '46257.6024724466', timestamp: 1612828800000 },
+//    { price: '46538.990047933', timestamp: 1612832400000 },
+//    { price: '45930.0603780886', timestamp: 1612836000000 },
+//    { price: '45832.064336514', timestamp: 1612839600000 },
+//    { price: '46430.2698651694', timestamp: 1612843200000 },
+//    { price: '46325.7416619953', timestamp: 1612846800000 },
+//    { price: '35821.0466289791', timestamp: 1612738800000 },
+
 // ]
-// console.log(arr.length)
 

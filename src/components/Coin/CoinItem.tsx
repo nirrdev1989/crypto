@@ -17,8 +17,11 @@ function CoinItem({ initialCoin }: Props) {
    const status = useSelector((state: RootState) => state.coin)
    const dispatch = useDispatch()
 
+   const updatedPrice = useSelector((state: RootState) => state.updatedCurrentPrice)
+
+
    const [coinSelectedId, setCoinSelectedId] = React.useState<number>(initialCoin.id)
-   const [mainStatus, setMainStatus] = React.useState<boolean>(true)
+   const [mainStatus, setMainStatus] = React.useState<boolean>(false)
 
    function handleChangeCoin(event: React.ChangeEvent<HTMLSelectElement>) {
       const { value } = event.target
@@ -34,6 +37,8 @@ function CoinItem({ initialCoin }: Props) {
    }
 
    React.useEffect(() => {
+      // setInterval(() => {
+      // }, 5000)
       dispatch(fetchCoinAction(coinSelectedId))
    }, [coinSelectedId])
 
@@ -53,9 +58,11 @@ function CoinItem({ initialCoin }: Props) {
 
 
    return (
-      <Card>
+      <Card extraClass="card-coin">
          <div className="card-header">
             <CoinHeader
+               currentPriceUpdated={updatedPrice.currentPriceUpdated}
+               currentPriceUpdatedChange={updatedPrice.change}
                loadStatus={status.loading}
                currentPrice={status.currentPrice}
                handleChangeCoin={handleChangeCoin}
@@ -66,12 +73,14 @@ function CoinItem({ initialCoin }: Props) {
             />
          </div>
          <div className="card-body">
-            {!mainStatus ?
+            {content}
+            {/* {!mainStatus ?
                <Chart
                   coinName={status.coin.name}
                   color={status.coin.color}
+                  coinSelectedId={coinSelectedId}
                /> : content
-            }
+            } */}
          </div>
       </Card>
    )

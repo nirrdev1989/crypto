@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { coninsBaseInfo } from '../../localdata/local.data'
+import { RootState } from '../../redux/store'
+import { fixNumber } from '../../utils/utils'
 import ImageIcon from '../ImageIcon'
 
 
@@ -11,6 +14,8 @@ interface Props {
    currentPrice: number
    iconUrl: string
    color: string
+   currentPriceUpdated: number
+   currentPriceUpdatedChange: number
 }
 
 function CoinHeader({
@@ -20,7 +25,22 @@ function CoinHeader({
    handleDescription,
    currentPrice,
    iconUrl,
-   color }: Props) {
+   currentPriceUpdated,
+   currentPriceUpdatedChange,
+   color
+}: Props) {
+
+   const [priceChange, setPriceChange] = React.useState(false)
+
+   React.useEffect(() => {
+      setPriceChange(() => false)
+      return () => {
+         setTimeout(() => {
+            setPriceChange(() => true)
+         }, 10)
+      }
+   }, [currentPriceUpdated])
+
    return (
       <h5 className="my-0 fw-normal card-chart-header">
          <div className="coin-actions">
@@ -32,19 +52,29 @@ function CoinHeader({
                </select>&nbsp;
                <button
                   disabled={loadStatus}
+                  onClick={handleDescription}
+                  style={{ backgroundColor: color, color: 'white' }}
+                  className="btn  btn-sm"
+               >
+                  Description
+               </button>
+               &nbsp;
+               <button
+                  disabled={loadStatus}
                   onClick={handleChart}
                   style={{ backgroundColor: color, color: 'white' }}
                   className="btn  btn-sm"
                >
-                  History
+                  Prices
                </button>
             </div>
             <div>
-               <span className="main-price">${currentPrice}</span>
-              &nbsp;
+               <span className={`${priceChange ? 'animate-center' : ''}`}>
+                  ${fixNumber(currentPriceUpdated, 2) || currentPrice}/ %{fixNumber(currentPriceUpdatedChange, 2)}
+               </span>
+               &nbsp;
               <ImageIcon
-                  style={{ cursor: ` ${loadStatus ? 'not-allowed' : 'pointer'}`, width: 30, height: 30 }}
-                  onClick={handleDescription}
+                  style={{ width: 30, height: 30 }}
                   path={iconUrl}
                />
             </div>

@@ -1,15 +1,17 @@
-import React from 'react'
+import { PropsWithChildren } from "react"
 
-function Card({ children }: any) {
+interface Props extends PropsWithChildren<any> {
+   extraClass?: string
+}
+function Card({ children, extraClass }: Props) {
    return (
-      <div className="col-md-12  mt-3 mb-3">
-         <div className="card  shadow-sm">
+      <div className={`col-md-12 ${extraClass && extraClass}`}>
+         <div className="card shadow-sm">
             {children}
          </div>
       </div>
    )
 }
 
-// function CardHeader({children}:any)
 
 export default Card

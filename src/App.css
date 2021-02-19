@@ -1,3 +1,11 @@
+header {
+   background-color: rgba(0, 0, 0, 0.9);
+}
+
+.card-coin {
+   margin-top: 2.1rem;
+}
+
 .coin-icon-img {
    width: 30;
    height: 30;
@@ -29,6 +37,10 @@
    min-height: 50vh;
 }
 
+.main-price {
+   font-weight: 600;
+}
+
 .chart-bar {
    display: flex;
    justify-content: space-between;
@@ -43,11 +55,28 @@
    flex-direction: column;
    margin-left: 0.5rem;
    margin-right: 0.5rem;
+   font-weight: 600;
 }
 
 .chart-price-item small {
    text-align: center;
    font-size: 12px;
+}
+
+.footer {
+   background-color: rgba(0, 0, 0, 0.9);
+   height: 3rem;
+   color: white;
+   width: 100%;
+}
+
+.footer-content {
+   margin: auto;
+   width: 80%;
+   height: 3rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 @media screen and (max-width:500px) {
@@ -57,10 +86,144 @@
    }
    .coin-actions>div:nth-child(1) {
       margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
    }
    .chart-selects, .chart-prices {
       display: flex;
       justify-content: space-around;
       align-items: center;
    }
+   .card-coin {
+      margin-bottom: 2.1rem;
+   }
+   /* .home-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+      width: 100%;
+   } */
+}
+
+.animate-center {
+   position: relative;
+   -webkit-animation-name: animatebottom;
+   -webkit-animation-duration: 1s;
+   animation-name: animatebottom;
+   animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+   from {
+      bottom: -10px;
+      opacity: 0
+   }
+   to {
+      bottom: 0px;
+      opacity: 1
+   }
+}
+
+@keyframes animatebottom {
+   from {
+      bottom: -10px;
+      opacity: 0
+   }
+   to {
+      bottom: 0;
+      opacity: 1
+   }
+}
+
+/* HOME GRID  */
+
+.home-grid {
+   display: grid;
+   grid-template-columns: 1fr 4fr;
+}
+
+.home-grid .home-grid-main {
+   /* background-color: blueviolet; */
+   background-image: url("https://www.cpacanada.ca/-/media/site/operational/rg-research-guidance-and-support/images/02250-rg.jpg");
+   width: 100%;
+   min-height: 550px;
+   background-size: cover;
+   position: relative;
+}
+
+.home-grid .home-grid-side-list {
+   width: 100%;
+   /* display: flex;
+   align-items: center;
+   justify-content: center; */
+}
+
+/* SIDE LIST  */
+
+.side-list {
+   background-color: rgb(28, 28, 29);
+   /* position: absolute; */
+   /* width: 100%; */
+   max-height: 550px;
+   overflow-x: hidden;
+   /* align-items: center; */
+   box-sizing: border-box;
+}
+
+.side-list-list {
+   list-style: none;
+   color: white;
+   display: flex;
+   /* justify-content: center; */
+   align-items: center;
+   flex-direction: column;
+   margin-right: 1.9rem;
+   margin-top: 0.5rem;
+   margin-left: 0px !important;
+   /* left: 0; */
+   /* top: 0; */
+   /* width: 300px; */
+}
+
+.side-list-item {
+   width: 100%;
+   box-sizing: border-box;
+   display: flex;
+   justify-content: space-between;
+   border: 1px solid black;
+   padding: 0.5rem;
+   font-weight: 400;
+   margin: 0.3rem;
+   background-color: rgb(44, 44, 44);
+   border-radius: 2px;
+   text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+   /* margin-right: 1rem; */
+}
+
+.side-list-item:hover {
+   border: 1px solid rgb(224, 224, 224);
+   cursor: pointer;
+}
+
+.side-list-item.active {
+   border: 1px solid rgb(224, 224, 224);
+   cursor: pointer;
+   box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 0.2), 0 6px 20px 0 rgba(146, 146, 146, 0.19);
+   cursor: not-allowed;
+}
+
+.side-list::-webkit-scrollbar {
+   width: 10px;
+}
+
+.side-list::-webkit-scrollbar-track {
+   background-color: rgb(44, 44, 44);
+}
+
+.side-list::-webkit-scrollbar-thumb {
+   background: #888;
+}
+
+.side-list::-webkit-scrollbar-thumb:hover {
+   background: #555;
 }

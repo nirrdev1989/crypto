@@ -1,28 +1,42 @@
 import React, { useState } from 'react'
-import { Bar, HorizontalBar } from "react-chartjs-2";
+import { Bar, HorizontalBar, Line } from "react-chartjs-2";
 import { useDispatch, useSelector } from 'react-redux';
 // import { CoinHistoryItem } from '../../models/Coin';
 import { RootState } from '../../redux/store';
 // import { countDates } from "../../utils/utils";
 import Loader from '../Loader';
 import ChartToolBar from './ChartToolBar';
-import { selectCoinHistoryAction } from '../../redux/coins/actions';
+import { selectCoinHistoryDateAction, updateCoinCurrentPriceSocketAction } from '../../redux/coins/actions';
+import socketIOClient from "socket.io-client";
+import { socketEndPoint } from '../../api/api';
 
-
+let socket: SocketIOClient.Socket = {} as SocketIOClient.Socket
 
 function chartOptions() {
    const options = {
+      responsive: true,
+      legend: {
+         labels: {
+            fontSize: 16
+         }
+      },
+      maintainAspectRatio: false,
       scales: {
+         pointLabels: {
+            fontStyle: "bold",
+         },
          yAxes: [{
             ticks: {
                beginAtZero: true,
                min: 0,
+               fontStyle: "bold",
             },
          }],
          xAxes: [{
             ticks: {
                beginAtZero: true,
                min: 0,
+               fontStyle: "bold",
             },
          }],
       },
@@ -30,20 +44,23 @@ function chartOptions() {
    return options
 }
 
-function dispalyData(label: string, color: string, data: any[]) {
+function dispalyData(label: any, color: string, data: any[], currentDateSelected: string, currentPriceUpdated?: any) {
    if (data.length) {
       return {
-         labels: data.map((i) => i.date),
+         labels: data.map((i) => currentDateSelected === 'all' ? i.date : i.time),
          datasets: [
             {
-               label: label,
-               data: data.map((i) => i.price),
-               backgroundColor: data.map(() => color),
-               fill: true,
+               label: label + '/' + data[0].date,
+               data: data.map((item, i) => item.price),
+               backgroundColor: color,
+               fill: false,
                borderWidth: 1,
                hoverBackgroundColor: 'rgba(240, 25, 90, 0.8)',
                hoverBorderColor: 'rgba(55, 68, 245, 1)',
-               borderColor: 'rgba(55, 68, 245, 0.5)',
+               // borderColor: 'rgba(55, 68, 245, 0.5)',
+               borderColor: color,
+               pointStyle: 'dash',
+               borderStyleCap: 'butt'
             }
          ]
       }
@@ -54,10 +71,13 @@ function dispalyData(label: string, color: string, data: any[]) {
 interface Props {
    coinName: string
    color: string
+   coinSelectedId: number
 }
 
-function Chart({ coinName, color }: Props) {
+function Chart({ coinName, color, coinSelectedId }: Props) {
    const [present, setPresent] = useState('Bar')
+
+   const currentPriceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPriceUpdated)
 
    const {
       loading,
@@ -66,7 +86,9 @@ function Chart({ coinName, color }: Props) {
       firstPriceDaySelected,
       changeDay,
       dateSelectedItems,
-      datesCount
+      datesCount,
+      lastDate,
+      changePresentDay
    } = useSelector((state: RootState) => state.coin)
 
    const dispatch = useDispatch()
@@ -78,26 +100,57 @@ function Chart({ coinName, color }: Props) {
 
    function handleChangeDate(event: React.ChangeEvent<HTMLSelectElement>) {
       const { value } = event.target
-      dispatch(selectCoinHistoryAction(value))
+      dispatch(selectCoinHistoryDateAction(value))
    }
+
+   console.log(currentPriceUpdated, lastPriceDaySelected)
+
+   React.useEffect(() => {
+      console.log('RENDER SOCKET')
+      socket = socketIOClient(socketEndPoint)
+      socket.emit('coinLastHistory', coinSelectedId, (result: any) => {
+         console.log(result)
+         // dateSelectedItems[dateSelectedItems.length - 1] = {
+         //    price: result.currentLastPriceUpdated,
+         //    date: lastDate,
+         //    time: result.time
+         // }
+
+         dispatch(updateCoinCurrentPriceSocketAction(result.currentLastPriceUpdated, result.change))
+      })
+
+      return () => {
+         socket.emit('disconnetc')
+         socket.disconnect()
+      }
+   }, [currentPriceUpdated, coinSelectedId])
 
    let chart
 
-   if (present === 'Bar') {
+   if (present === 'Bar' && dateSelectedItems.length) {
       chart = <Bar
          type="bar"
-         data={dispalyData(coinName, color, dateSelectedItems)}
+         data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected, currentPriceUpdated)}
          options={chartOptions()}
-         height={110}
+         height={100}
       />
    }
 
-   else if (present === 'HorizontalBar') {
+   else if (present === 'HorizontalBar' && dateSelectedItems.length) {
       chart = <HorizontalBar
          type="horizontalBar"
-         data={dispalyData(coinName, color, dateSelectedItems)}
+         data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected)}
          options={chartOptions()}
-         height={150}
+         height={100}
+      />
+   }
+
+   else if (present === 'Line' && dateSelectedItems.length) {
+      chart = <Line
+         type="line"
+         data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected)}
+         options={chartOptions()}
+         height={100}
       />
    }
 
@@ -114,8 +167,11 @@ function Chart({ coinName, color }: Props) {
                   firstPriceDaySelected={firstPriceDaySelected}
                   changeDay={changeDay}
                   historyDatesLength={datesCount}
+                  changePresent={changePresentDay}
                />
-               {chart}
+               <div style={{ height: '60vh', width: '100%' }}>
+                  {chart}
+               </div>
             </React.Fragment>}
       </React.Fragment>
    )

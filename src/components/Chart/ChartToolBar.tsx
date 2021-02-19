@@ -5,18 +5,18 @@ interface PropsPrice {
    price: number
    style?: any
    text: string
+   symbol?: string
 }
-function ChartPriceItem({ text, price, style }: PropsPrice) {
+function ChartPriceItem({ text, price, style, symbol }: PropsPrice) {
    return (
       <div className="chart-price-item" style={style ? style : null}>
-         <span>${price.toFixed(2)}</span>
+         <span>{symbol}{price.toFixed(2)}</span>
          <small>{text}</small>
       </div>
    )
 }
 
-const presentetion: string[] = ['Bar', 'HorizontalBar']
-
+const presentetion: string[] = ['Bar', 'HorizontalBar', 'Line']
 
 interface Props {
    handleChangeDate: (event: React.ChangeEvent<HTMLSelectElement>) => void
@@ -27,6 +27,7 @@ interface Props {
    lastPriceDaySelected: number
    firstPriceDaySelected: number
    changeDay: number
+   changePresent: number
 }
 
 function ChartToolBar({
@@ -37,7 +38,8 @@ function ChartToolBar({
    present,
    lastPriceDaySelected,
    firstPriceDaySelected,
-   changeDay
+   changeDay,
+   changePresent
 }: Props) {
 
    let posColor = Number(lastPriceDaySelected) > Number(firstPriceDaySelected) ? 'green' : 'red'
@@ -60,9 +62,10 @@ function ChartToolBar({
          </div>
          &nbsp;
          <div className="chart-prices">
-            <ChartPriceItem price={lastPriceDaySelected} text="Current" />  /
-            <ChartPriceItem price={firstPriceDaySelected} text="First" />  /
-            <ChartPriceItem price={changeDay} style={{ color: posColor }} text="Change" />
+            <ChartPriceItem price={lastPriceDaySelected} text="Current" symbol="$" />  /
+            <ChartPriceItem price={firstPriceDaySelected} text="First" symbol="$" />  /
+            <ChartPriceItem price={changeDay} style={{ color: posColor }} text="Change" symbol="$" />/
+            <ChartPriceItem price={changePresent} style={{ color: posColor }} text="Present" symbol="%" />
          </div>
       </div>
    )

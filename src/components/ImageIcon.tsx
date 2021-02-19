@@ -3,15 +3,15 @@ import React from 'react'
 
 interface Props {
    path: string
-   onClick: () => void
-   style: any
+   onClick?: () => void
+   style?: any
 }
 
 function ImageIcon({ path, style, onClick }: Props) {
    return (
       <img
-         style={style}
-         onClick={onClick}
+         style={style && style}
+         onClick={() => onClick ? onClick : null}
          src={path}
          alt=""
       />

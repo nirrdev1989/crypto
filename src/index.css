@@ -7,6 +7,13 @@ body {
   padding: 0;
 }
 
+.center-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* min-height: 100vh; */
+}
+
 a {
   text-decoration: none;
 }
@@ -19,20 +26,16 @@ a:hover {
   color: rgb(240, 28, 99);
 }
 
-.card {
+.card, .btn {
   border-radius: 2px;
 }
 
 .app {
-  background-image: url("https://www.cpacanada.ca/-/media/site/operational/rg-research-guidance-and-support/images/02250-rg.jpg");
+  /* background-image: url("https://www.cpacanada.ca/-/media/site/operational/rg-research-guidance-and-support/images/02250-rg.jpg");
   width: 100%;
-  min-height: 700px;
+  min-height: 550px;
   background-size: cover;
-  position: relative;
-}
-
-.btn {
-  border-radius: 2px;
+  position: relative; */
 }
 
 code {

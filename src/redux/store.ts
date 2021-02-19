@@ -1,10 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { coinReducer } from "./coins/reducers";
+import { coinReducer, updateCoinCurrentPriceSocketReducer } from "./coins/reducers";
 import { logger } from "redux-logger";
 import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
-   coin: coinReducer
+   coin: coinReducer,
+   updatedCurrentPrice: updateCoinCurrentPriceSocketReducer
 })
 
 const middleWeres = [thunk]

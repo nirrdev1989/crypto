@@ -1,7 +1,12 @@
+import { PropsWithChildren } from "react"
 
-function Container({ children }: any) {
+interface Props extends PropsWithChildren<any> {
+   extraClass?: string
+}
+
+function Container({ children, extraClass }: Props) {
    return (
-      <div className="container">
+      <div className={`container ${extraClass && extraClass}`}>
          {children}
       </div>
    )
