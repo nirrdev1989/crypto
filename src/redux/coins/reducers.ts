@@ -18,7 +18,8 @@ interface CoinInitialState {
    changeDay: number,
    changePresentDay: number,
    lastDate: string,
-   changeAllDaysPresent: number
+   changeAllDaysPresent: number,
+   currentCoinId: number
 }
 
 const INITIAL_STATE_COIN: CoinInitialState = {
@@ -37,7 +38,8 @@ const INITIAL_STATE_COIN: CoinInitialState = {
    changeDay: 0,
    lastDate: '',
    changeAllDaysPresent: 0,
-   changePresentDay: 0
+   changePresentDay: 0,
+   currentCoinId: 0
 }
 
 export function coinReducer(state = INITIAL_STATE_COIN, action: CoinActions): CoinInitialState {
@@ -63,13 +65,14 @@ export function coinReducer(state = INITIAL_STATE_COIN, action: CoinActions): Co
             firstPriceDaySelected: historyValues[historyKeysLength - 1].firstPriceOfDay,
             error: '',
             currentDateSelected: historyKeys[historyKeysLength - 1],
-            currentPrice: fixNumber(action.payload.currentPrice, 2),
+            currentPrice: fixNumber(action.payload.currentPrice, 3),
             lastPrice: action.payload.lastPrice,
             changeDay: historyValues[historyKeysLength - 1].change,
             changeAllDays: action.payload.change,
             lastDate: historyKeys[historyKeysLength - 1],
             changeAllDaysPresent: action.payload.changePresent,
-            changePresentDay: historyValues[historyKeysLength - 1].changePresentDay
+            changePresentDay: historyValues[historyKeysLength - 1].changePresentDay,
+            currentCoinId: action.payload.coin.id
          }
       case ActionsTypes.FETCH_COIN_FAIL:
          return {
@@ -113,6 +116,9 @@ interface UpdateCoinCurrentPriceSocketState {
    error: string
    change: number
    time: string
+   presentChange: number
+   priceUp: boolean
+   isPriceChange: boolean
 }
 
 const INITIAL_STATE_UPDATE_COIN_CURRENT_PRICE_SOCKET: UpdateCoinCurrentPriceSocketState = {
@@ -120,34 +126,61 @@ const INITIAL_STATE_UPDATE_COIN_CURRENT_PRICE_SOCKET: UpdateCoinCurrentPriceSock
    currentPriceUpdated: 0,
    error: '',
    change: 0,
-   time: ''
+   time: '',
+   presentChange: 0,
+   priceUp: false,
+   isPriceChange: false
 }
 
 export function updateCoinCurrentPriceSocketReducer(
    state = INITIAL_STATE_UPDATE_COIN_CURRENT_PRICE_SOCKET,
    action: CoinActions
-) {
+): UpdateCoinCurrentPriceSocketState {
    switch (action.type) {
       case ActionsTypes.UPDATE_COIN_CURRENT_PRICE_SOCKET:
-         let changeCurrentPricePresent
+         let changeCurrentPricePresent: number = 0
+         let changeCurrentPrice: number = 0
+         // let currentPriceChange: number = state.currentPriceUpdated || 0
+         let isPriceUp: boolean = false
+         let priceChange: boolean = false
 
-         if (state.currentPriceUpdated === 0) {
-            changeCurrentPricePresent = 0
-         } else {
-            let onePresent = state.currentPriceUpdated / 100
-            let rage = getRange(state.currentPriceUpdated, action.payload.updatedCurrentPrice)
-            changeCurrentPricePresent = rage / onePresent
 
+         console.log('STATE CURRENT PICE: ', state.currentPriceUpdated)
+         console.log('NEW CURRENT PRICE: : ', action.payload.updatedCurrentPrice)
+
+         if (state.currentPriceUpdated === action.payload.updatedCurrentPrice) {
+            isPriceUp = state.priceUp
          }
-         console.log(state.currentPriceUpdated, 'state price')
-         console.log(action.payload.updatedCurrentPrice, 'comming price')
 
+         else if (state.currentPriceUpdated !== 0) {
+            let onePresent = state.currentPriceUpdated / 100
+            changeCurrentPrice = fixNumber(getRange(state.currentPriceUpdated, action.payload.updatedCurrentPrice), 3)
+            console.log('CHANGE PIRCE RANGE: ', changeCurrentPrice)
+            changeCurrentPricePresent = fixNumber(changeCurrentPrice / onePresent, 3)
+            console.log('CHANGE PIRCE PRESENT: ', changeCurrentPricePresent)
+            isPriceUp = action.payload.updatedCurrentPrice > state.currentPriceUpdated
+            priceChange = true
+         }
 
          return {
             ...state,
             currentPriceUpdated: action.payload.updatedCurrentPrice,
-            change: changeCurrentPricePresent,
-            time: action.payload.time
+            time: new Date().toLocaleTimeString(),
+            presentChange: changeCurrentPricePresent || state.presentChange,
+            change: changeCurrentPrice || state.change,
+            priceUp: isPriceUp,
+            isPriceChange: priceChange
+         }
+      case ActionsTypes.RESET_COIN_UPDATED_SOCKET:
+         return {
+            coinId: 0,
+            currentPriceUpdated: 0,
+            error: '',
+            change: 0,
+            time: '',
+            presentChange: 0,
+            priceUp: false,
+            isPriceChange: false
          }
       default:
          return state

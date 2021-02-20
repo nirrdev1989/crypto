@@ -23,7 +23,7 @@ export function updateCoinCurrentPriceSocketAction(updatedCurrentPrice: number, 
 export function fetchCoinAction(id: number) {
    return async function (dispatch: Dispatch<CoinActions>) {
       dispatch({ type: ActionsTypes.FETCH_COIN_START })
-
+      dispatch({ type: ActionsTypes.RESET_COIN_UPDATED_SOCKET })
       try {
          const response = await fetch(singleCoin + id)
          if (response.ok) {

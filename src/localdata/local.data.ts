@@ -1,6 +1,22 @@
 import { CoinBaseInfo } from "../models/Coin";
 
+export interface Tabs {
+   value: any
+   content: string
+}
 
+export const chartPresentetion: string[] = ['Bar', 'HorizontalBar', 'Line']
+
+export const tabsArray: Tabs[] = [{
+   value: 'prices',
+   content: 'Prices'
+}, {
+   value: 'description',
+   content: 'Description'
+}, {
+   value: 'live',
+   content: 'Live'
+}]
 
 export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 1,

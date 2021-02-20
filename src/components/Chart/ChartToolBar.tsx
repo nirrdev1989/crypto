@@ -1,5 +1,7 @@
 import React from 'react'
+import { chartPresentetion } from '../../localdata/local.data';
 import { countDates } from "../../utils/utils";
+import SelectInput from '../SelectInput';
 
 interface PropsPrice {
    price: number
@@ -7,16 +9,16 @@ interface PropsPrice {
    text: string
    symbol?: string
 }
+
 function ChartPriceItem({ text, price, style, symbol }: PropsPrice) {
    return (
       <div className="chart-price-item" style={style ? style : null}>
-         <span>{symbol}{price.toFixed(2)}</span>
+         <span>{symbol}{price.toFixed(3)}</span>
          <small>{text}</small>
       </div>
    )
 }
 
-const presentetion: string[] = ['Bar', 'HorizontalBar', 'Line']
 
 interface Props {
    handleChangeDate: (event: React.ChangeEvent<HTMLSelectElement>) => void
@@ -42,25 +44,23 @@ function ChartToolBar({
    changePresent
 }: Props) {
 
-   let posColor = Number(lastPriceDaySelected) > Number(firstPriceDaySelected) ? 'green' : 'red'
+   let posColor = Number(lastPriceDaySelected) > Number(firstPriceDaySelected) ? 'rgb(43, 251, 164)' : 'rgb(251, 43, 43)'
 
    return (
       <div className="chart-bar">
          <div className="chart-selects">
-            <select className="form-select-sm" onChange={handleChangeDate} defaultValue={currentDateSelected}>
-               {countDates(historyDatesLength).map((date) => {
-                  return <option key={date} value={date}>{date}</option>
-               })}
-               <option value="all">All</option>
-            </select>
-         &nbsp;
-         <select className="form-select-sm" onChange={handleChangePresent} defaultValue={present}>
-               {presentetion.map((p) => {
-                  return <option key={p} value={p}>{p}</option>
-               })}
-            </select>
+            <SelectInput
+               handleChange={handleChangeDate}
+               defaultValue={currentDateSelected}
+               data={countDates(historyDatesLength)}
+               extraOption={{ value: 'all', content: 'All' }}
+            />
+            <SelectInput
+               handleChange={handleChangePresent}
+               defaultValue={present}
+               data={chartPresentetion}
+            />
          </div>
-         &nbsp;
          <div className="chart-prices">
             <ChartPriceItem price={lastPriceDaySelected} text="Current" symbol="$" />  /
             <ChartPriceItem price={firstPriceDaySelected} text="First" symbol="$" />  /
@@ -70,8 +70,6 @@ function ChartToolBar({
       </div>
    )
 }
-
-
 
 
 export default ChartToolBar

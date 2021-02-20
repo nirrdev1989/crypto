@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Bar, HorizontalBar, Line } from "react-chartjs-2";
+import { Bar, HorizontalBar, Line, } from "react-chartjs-2";
 import { useDispatch, useSelector } from 'react-redux';
 // import { CoinHistoryItem } from '../../models/Coin';
 import { RootState } from '../../redux/store';
@@ -17,19 +17,22 @@ function chartOptions() {
       responsive: true,
       legend: {
          labels: {
-            fontSize: 16
+            fontSize: 16,
+            fontColor: 'rgb(255, 255, 255)'
          }
       },
       maintainAspectRatio: false,
       scales: {
          pointLabels: {
             fontStyle: "bold",
+            fontColor: 'rgb(255, 255, 255)'
          },
          yAxes: [{
             ticks: {
                beginAtZero: true,
                min: 0,
                fontStyle: "bold",
+               fontColor: 'rgb(255, 255, 255)'
             },
          }],
          xAxes: [{
@@ -37,6 +40,7 @@ function chartOptions() {
                beginAtZero: true,
                min: 0,
                fontStyle: "bold",
+               fontColor: 'rgb(255, 255, 255)'
             },
          }],
       },
@@ -71,11 +75,11 @@ function dispalyData(label: any, color: string, data: any[], currentDateSelected
 interface Props {
    coinName: string
    color: string
-   coinSelectedId: number
+   coinSelectedId?: number
 }
 
 function Chart({ coinName, color, coinSelectedId }: Props) {
-   const [present, setPresent] = useState('Bar')
+   const [chartPresentetion, setChartPresentetion] = useState('Bar')
 
    const currentPriceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPriceUpdated)
 
@@ -95,7 +99,7 @@ function Chart({ coinName, color, coinSelectedId }: Props) {
 
    function handleChangePresent(event: React.ChangeEvent<HTMLSelectElement>) {
       const { value } = event.target
-      setPresent(() => value)
+      setChartPresentetion(() => value)
    }
 
    function handleChangeDate(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -103,31 +107,10 @@ function Chart({ coinName, color, coinSelectedId }: Props) {
       dispatch(selectCoinHistoryDateAction(value))
    }
 
-   console.log(currentPriceUpdated, lastPriceDaySelected)
-
-   React.useEffect(() => {
-      console.log('RENDER SOCKET')
-      socket = socketIOClient(socketEndPoint)
-      socket.emit('coinLastHistory', coinSelectedId, (result: any) => {
-         console.log(result)
-         // dateSelectedItems[dateSelectedItems.length - 1] = {
-         //    price: result.currentLastPriceUpdated,
-         //    date: lastDate,
-         //    time: result.time
-         // }
-
-         dispatch(updateCoinCurrentPriceSocketAction(result.currentLastPriceUpdated, result.change))
-      })
-
-      return () => {
-         socket.emit('disconnetc')
-         socket.disconnect()
-      }
-   }, [currentPriceUpdated, coinSelectedId])
 
    let chart
 
-   if (present === 'Bar' && dateSelectedItems.length) {
+   if (chartPresentetion === 'Bar' && dateSelectedItems.length) {
       chart = <Bar
          type="bar"
          data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected, currentPriceUpdated)}
@@ -136,7 +119,7 @@ function Chart({ coinName, color, coinSelectedId }: Props) {
       />
    }
 
-   else if (present === 'HorizontalBar' && dateSelectedItems.length) {
+   else if (chartPresentetion === 'HorizontalBar' && dateSelectedItems.length) {
       chart = <HorizontalBar
          type="horizontalBar"
          data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected)}
@@ -145,7 +128,7 @@ function Chart({ coinName, color, coinSelectedId }: Props) {
       />
    }
 
-   else if (present === 'Line' && dateSelectedItems.length) {
+   else if (chartPresentetion === 'Line' && dateSelectedItems.length) {
       chart = <Line
          type="line"
          data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected)}
@@ -161,7 +144,7 @@ function Chart({ coinName, color, coinSelectedId }: Props) {
                <ChartToolBar
                   handleChangeDate={handleChangeDate}
                   handleChangePresent={handleChangePresent}
-                  present={present}
+                  present={chartPresentetion}
                   currentDateSelected={currentDateSelected}
                   lastPriceDaySelected={lastPriceDaySelected}
                   firstPriceDaySelected={firstPriceDaySelected}

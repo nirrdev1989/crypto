@@ -1,14 +1,60 @@
+/* HEADER */
+
 header {
-   background-color: rgba(0, 0, 0, 0.9);
+   background-color: var(--primary-full);
 }
 
-.card-coin {
-   margin-top: 2.1rem;
+/* FOOTER  */
+
+.footer {
+   background-color: var(--primary-full);
+   height: 3rem;
+   color: var( --primary-white);
+   width: 100%;
 }
+
+.footer-content {
+   margin: auto;
+   width: 80%;
+   height: 3rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+/* ICON IMG  */
 
 .coin-icon-img {
    width: 30;
    height: 30;
+}
+
+/* CARD  */
+
+.card {
+   box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 0.2), 0 6px 20px 0 rgba(146, 146, 146, 0.19) !important;
+   /* border: 1px solid rgba(0, 0, 0, 0.9) !important; */
+   /* border: none; */
+}
+
+.card-coin {
+   margin-top: 2rem;
+   max-height: 510px;
+   width: 90%;
+   margin: auto;
+   /* overflow-x: hidden; */
+}
+
+.card-header {
+   background-color: var( --primary-second);
+   color: var( --primary-white);
+}
+
+.card-body {
+   overflow-x: hidden;
+   max-height: 480px;
+   background-color: var( --primary-third);
+   color: var( --primary-white);
 }
 
 .card-chart-header {
@@ -16,7 +62,7 @@ header {
    justify-content: space-between;
 }
 
-.coin-actions {
+.coin-header {
    width: 100%;
    box-sizing: border-box;
    align-items: center;
@@ -24,7 +70,11 @@ header {
    display: flex;
 }
 
-.coin-actions>div {
+.coin-header-btns button {
+   margin-right: 0.3rem;
+}
+
+.coin-header>div {
    box-sizing: border-box;
    align-items: center;
    display: flex;
@@ -63,46 +113,14 @@ header {
    font-size: 12px;
 }
 
-.footer {
-   background-color: rgba(0, 0, 0, 0.9);
-   height: 3rem;
-   color: white;
-   width: 100%;
-}
-
-.footer-content {
+.live-prcies {
+   width: 60%;
    margin: auto;
-   width: 80%;
-   height: 3rem;
    display: flex;
    justify-content: center;
    align-items: center;
-}
-
-@media screen and (max-width:500px) {
-   .chart-bar, .coin-actions {
-      display: flex;
-      flex-direction: column;
-   }
-   .coin-actions>div:nth-child(1) {
-      margin-bottom: 0.5rem;
-      margin-top: 0.5rem;
-   }
-   .chart-selects, .chart-prices {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-   }
-   .card-coin {
-      margin-bottom: 2.1rem;
-   }
-   /* .home-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 80vh;
-      width: 100%;
-   } */
+   font-size: 35px;
+   padding: 3rem;
 }
 
 .animate-center {
@@ -143,36 +161,33 @@ header {
 }
 
 .home-grid .home-grid-main {
-   /* background-color: blueviolet; */
    background-image: url("https://www.cpacanada.ca/-/media/site/operational/rg-research-guidance-and-support/images/02250-rg.jpg");
    width: 100%;
    min-height: 550px;
    background-size: cover;
    position: relative;
+   padding-left: 1rem;
+   padding-right: 1rem;
+   padding-top: 1rem;
 }
 
 .home-grid .home-grid-side-list {
    width: 100%;
-   /* display: flex;
-   align-items: center;
-   justify-content: center; */
 }
 
 /* SIDE LIST  */
 
 .side-list {
-   background-color: rgb(28, 28, 29);
-   /* position: absolute; */
-   /* width: 100%; */
+   background-color: var( --primary-second);
    max-height: 550px;
    overflow-x: hidden;
-   /* align-items: center; */
    box-sizing: border-box;
+   box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 0.2), 0 6px 20px 0 rgba(146, 146, 146, 0.19) !important;
 }
 
 .side-list-list {
    list-style: none;
-   color: white;
+   color: var( --primary-white);
    display: flex;
    /* justify-content: center; */
    align-items: center;
@@ -194,36 +209,96 @@ header {
    padding: 0.5rem;
    font-weight: 400;
    margin: 0.3rem;
-   background-color: rgb(44, 44, 44);
+   background-color: var( --primary-third);
    border-radius: 2px;
    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
    /* margin-right: 1rem; */
 }
 
 .side-list-item:hover {
-   border: 1px solid rgb(224, 224, 224);
+   border: 1px solid var( --primary-white);
    cursor: pointer;
 }
 
 .side-list-item.active {
-   border: 1px solid rgb(224, 224, 224);
+   border: 1px solid var( --primary-white);
    cursor: pointer;
    box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 0.2), 0 6px 20px 0 rgba(146, 146, 146, 0.19);
    cursor: not-allowed;
 }
 
-.side-list::-webkit-scrollbar {
+.side-list::-webkit-scrollbar, .card-body::-webkit-scrollbar {
    width: 10px;
 }
 
-.side-list::-webkit-scrollbar-track {
-   background-color: rgb(44, 44, 44);
+.side-list::-webkit-scrollbar-track, .card-body::-webkit-scrollbar-track {
+   background-color: var( --primary-third);
 }
 
-.side-list::-webkit-scrollbar-thumb {
+.side-list::-webkit-scrollbar-thumb, .card-body::-webkit-scrollbar-thumb {
    background: #888;
 }
 
-.side-list::-webkit-scrollbar-thumb:hover {
+.side-list::-webkit-scrollbar-thumb:hover, .card-body::-webkit-scrollbar-thumb:hover {
    background: #555;
+   color: rgb(43, 251, 164);
+}
+
+@media screen and (max-width: 770px) {
+   .home-grid .home-grid-main {
+      grid-column: 5 span;
+      min-height: 650px;
+      /* display: flex;
+      justify-content: center;
+      align-items: center; */
+   }
+   .home-grid .home-grid-side-list {
+      grid-column: 5 span;
+   }
+   .side-list {
+      max-height: 350px;
+   }
+   .card-coin {
+      width: 100%;
+   }
+}
+
+@media screen and (max-width:500px) {
+   .chart-bar, .coin-header {
+      display: flex;
+      flex-direction: column;
+   }
+   .coin-header>div:nth-child(1) {
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+   }
+   .chart-selects, .chart-prices {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+   }
+   .card-coin {
+      margin-bottom: 2.1rem;
+   }
+   .home-grid .home-grid-main {
+      grid-column: 5 span;
+      min-height: 650px;
+   }
+   .home-grid .home-grid-side-list {
+      grid-column: 5 span;
+   }
+   .side-list {
+      max-height: 250px;
+   }
+   .card-coin {
+      max-height: 300px;
+      width: 100%;
+   }
+   .chart-prices {
+      font-size: 13px;
+      margin-bottom: 1rem;
+   }
+   .live-prcies {
+      font-size: 23px;
+   }
 }

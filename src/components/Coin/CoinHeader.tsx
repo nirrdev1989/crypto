@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { coninsBaseInfo } from '../../localdata/local.data'
+import { useDispatch, useSelector } from 'react-redux'
+import { coninsBaseInfo, tabsArray } from '../../localdata/local.data'
 import { RootState } from '../../redux/store'
+import { setCurrentTabAction } from '../../redux/tabs/actions'
 import { fixNumber } from '../../utils/utils'
+import Button from '../Button'
 import ImageIcon from '../ImageIcon'
 
 
 interface Props {
-   handleChangeCoin: (event: React.ChangeEvent<HTMLSelectElement>) => void
    loadStatus: boolean
-   handleChart: () => void
-   handleDescription: () => void
    currentPrice: number
    iconUrl: string
    color: string
@@ -19,10 +18,7 @@ interface Props {
 }
 
 function CoinHeader({
-   handleChangeCoin,
    loadStatus,
-   handleChart,
-   handleDescription,
    currentPrice,
    iconUrl,
    currentPriceUpdated,
@@ -30,50 +26,30 @@ function CoinHeader({
    color
 }: Props) {
 
-   const [priceChange, setPriceChange] = React.useState(false)
+   const dispatch = useDispatch()
+   const currentTab = useSelector((state: RootState) => state.tabs.currentTab)
 
-   React.useEffect(() => {
-      setPriceChange(() => false)
-      return () => {
-         setTimeout(() => {
-            setPriceChange(() => true)
-         }, 10)
-      }
-   }, [currentPriceUpdated])
 
    return (
       <h5 className="my-0 fw-normal card-chart-header">
-         <div className="coin-actions">
-            <div>
-               <select className="form-select-sm" onChange={handleChangeCoin} disabled={loadStatus}>
-                  {coninsBaseInfo.map((c) => {
-                     return <option value={c.id} key={c.name + c.id}>{c.name} </option>
-                  })}
-               </select>&nbsp;
-               <button
-                  disabled={loadStatus}
-                  onClick={handleDescription}
-                  style={{ backgroundColor: color, color: 'white' }}
-                  className="btn  btn-sm"
-               >
-                  Description
-               </button>
-               &nbsp;
-               <button
-                  disabled={loadStatus}
-                  onClick={handleChart}
-                  style={{ backgroundColor: color, color: 'white' }}
-                  className="btn  btn-sm"
-               >
-                  Prices
-               </button>
+         <div className="coin-header ">
+            <div className="coin-header-btns">
+               {tabsArray.map((tab) => {
+                  return <Button
+                     key={tab.value}
+                     handleClick={() => dispatch(setCurrentTabAction(tab.value))}
+                     active={currentTab === tab.value}
+                     disabled={loadStatus}
+                     content={tab.content}
+                     color={color}
+                  />
+               })}
             </div>
             <div>
-               <span className={`${priceChange ? 'animate-center' : ''}`}>
-                  ${fixNumber(currentPriceUpdated, 2) || currentPrice}/ %{fixNumber(currentPriceUpdatedChange, 2)}
+               <span style={{ marginRight: '0.3rem' }}>
+                  ${fixNumber(currentPriceUpdated, 3) || currentPrice}
                </span>
-               &nbsp;
-              <ImageIcon
+               <ImageIcon
                   style={{ width: 30, height: 30 }}
                   path={iconUrl}
                />

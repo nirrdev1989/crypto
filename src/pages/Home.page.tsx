@@ -1,8 +1,6 @@
 import React from 'react'
 import CoinItem from '../components/Coin/CoinItem';
 import SideList from '../components/SideList/SideList';
-import Container from '../components/Wrappers/Container';
-import { coninsBaseInfo } from '../localdata/local.data'
 
 
 function HomePage() {
@@ -12,7 +10,7 @@ function HomePage() {
             <SideList />
          </div>
          <div className="home-grid-main">
-            {/* <CoinItem initialCoin={coninsBaseInfo[0]} /> */}
+            <CoinItem />
          </div>
       </div>
    )

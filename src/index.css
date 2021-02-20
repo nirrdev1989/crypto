@@ -7,6 +7,13 @@ body {
   padding: 0;
 }
 
+:root {
+  --primary-full: rgba(0, 0, 0, 0.9);
+  --primary-second: rgb(28, 28, 29);
+  --primary-third: rgb(44, 44, 44);
+  --primary-white: rgb(255, 255, 255);
+}
+
 .center-element {
   display: flex;
   justify-content: center;
@@ -26,8 +33,24 @@ a:hover {
   color: rgb(240, 28, 99);
 }
 
-.card, .btn {
+.btn {
   border-radius: 2px;
+  opacity: 0.7;
+}
+
+.btn.active {
+  opacity: 1;
+}
+
+.card, .card-header:first-child {
+  border-radius: 0px;
+}
+
+.form-select-sm {
+  border-radius: 2px;
+  background-color: var(--primary-second);
+  color: var( --primary-white);
+  margin: 0.5rem;
 }
 
 .app {
