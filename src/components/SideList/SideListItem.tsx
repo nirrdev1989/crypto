@@ -4,18 +4,22 @@ import ImageIcon from '../ImageIcon'
 
 interface Props {
    item: CoinBaseInfo
-   onSelectCoin: (coinId: number) => void
-   currentCoinSelectes: number
+   onSelectCoin: (currentCoin: CoinBaseInfo) => void
+   currentCoinSelected: CoinBaseInfo
 }
 
-function SideListItem({ item, currentCoinSelectes, onSelectCoin }: Props) {
+function SideListItem({ item, currentCoinSelected, onSelectCoin }: Props) {
    return (
       <li
          style={{ color: item.color || 'white' }}
-         className={`side-list-item ${currentCoinSelectes === item.id ? 'active' : ''} `}
-         onClick={() => onSelectCoin(item.id)}
+         className={`side-list-item ${currentCoinSelected.name === item.name ? 'active' : ''} `}
+         onClick={() => onSelectCoin(item)}
       >
-         <span>{item.name}</span>  <ImageIcon path={item.iconUrl} style={{ width: 30, height: 30 }} />
+         <span>{item.name}</span>
+         <ImageIcon
+            path={item?.iconUrl || ''}
+            style={{ width: 30, height: 30 }}
+         />
       </li>
    )
 }

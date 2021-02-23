@@ -7,10 +7,7 @@ import { RootState } from '../../redux/store';
 import Loader from '../Loader';
 import ChartToolBar from './ChartToolBar';
 import { selectCoinHistoryDateAction, updateCoinCurrentPriceSocketAction } from '../../redux/coins/actions';
-import socketIOClient from "socket.io-client";
-import { socketEndPoint } from '../../api/api';
 
-let socket: SocketIOClient.Socket = {} as SocketIOClient.Socket
 
 function chartOptions() {
    const options = {
@@ -78,62 +75,53 @@ interface Props {
    coinSelectedId?: number
 }
 
-function Chart({ coinName, color, coinSelectedId }: Props) {
+function Chart({ coinName, color }: Props) {
    const [chartPresentetion, setChartPresentetion] = useState('Bar')
-
-   const currentPriceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPriceUpdated)
-
-   const {
-      loading,
-      currentDateSelected,
-      lastPriceDaySelected,
-      firstPriceDaySelected,
-      changeDay,
-      dateSelectedItems,
-      datesCount,
-      lastDate,
-      changePresentDay
-   } = useSelector((state: RootState) => state.coin)
 
    const dispatch = useDispatch()
 
-   function handleChangePresent(event: React.ChangeEvent<HTMLSelectElement>) {
+   const currentPriceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPriceUpdated)
+
+   const { loading, currentRangeSelected } = useSelector((state: RootState) => state.coin)
+
+   const coinHistory = useSelector((state: RootState) => state.coinHistory)
+
+   function handleChangeChartPresent(event: React.ChangeEvent<HTMLSelectElement>) {
       const { value } = event.target
       setChartPresentetion(() => value)
    }
 
-   function handleChangeDate(event: React.ChangeEvent<HTMLSelectElement>) {
+   function handleChangeRange(event: React.ChangeEvent<HTMLSelectElement>) {
       const { value } = event.target
       dispatch(selectCoinHistoryDateAction(value))
    }
 
-
    let chart
 
-   if (chartPresentetion === 'Bar' && dateSelectedItems.length) {
+   if (chartPresentetion === 'Bar' && coinHistory.historyItems.length) {
       chart = <Bar
          type="bar"
-         data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected, currentPriceUpdated)}
+         data={dispalyData(coinName, color, coinHistory.historyItems, currentRangeSelected, currentPriceUpdated)}
          options={chartOptions()}
-         height={100}
+         height={60}
       />
    }
 
-   else if (chartPresentetion === 'HorizontalBar' && dateSelectedItems.length) {
+   else if (chartPresentetion === 'HorizontalBar' && coinHistory.historyItems.length) {
       chart = <HorizontalBar
          type="horizontalBar"
-         data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected)}
+         data={dispalyData(coinName, color, coinHistory.historyItems, currentRangeSelected)}
          options={chartOptions()}
-         height={100}
+         height={60}
       />
    }
 
-   else if (chartPresentetion === 'Line' && dateSelectedItems.length) {
+   else if (chartPresentetion === 'Line' && coinHistory.historyItems.length) {
       chart = <Line
          type="line"
-         data={dispalyData(coinName, color, dateSelectedItems, currentDateSelected)}
+         data={dispalyData(coinName, color, coinHistory.historyItems, currentRangeSelected)}
          options={chartOptions()}
-         height={100}
+         height={60}
       />
    }
 
@@ -142,17 +130,17 @@ function Chart({ coinName, color, coinSelectedId }: Props) {
          {loading ? <Loader /> :
             <React.Fragment>
                <ChartToolBar
-                  handleChangeDate={handleChangeDate}
-                  handleChangePresent={handleChangePresent}
+                  handleChangeRange={handleChangeRange}
+                  handleChangeChartPresent={handleChangeChartPresent}
                   present={chartPresentetion}
-                  currentDateSelected={currentDateSelected}
-                  lastPriceDaySelected={lastPriceDaySelected}
-                  firstPriceDaySelected={firstPriceDaySelected}
-                  changeDay={changeDay}
-                  historyDatesLength={datesCount}
-                  changePresent={changePresentDay}
+                  currentRangeSelected={currentRangeSelected}
+                  change={coinHistory.change}
+                  changePresent={coinHistory.changePresent}
+                  currentPrice={coinHistory.priceEndOfRange}
+                  firstPrice={coinHistory.priceStartOfRange}
+                  priceUp={coinHistory.priceUp}
                />
-               <div style={{ height: '60vh', width: '100%' }}>
+               <div style={{ height: '50vh', width: '100%' }}>
                   {chart}
                </div>
             </React.Fragment>}

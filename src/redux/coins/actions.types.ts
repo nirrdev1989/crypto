@@ -6,7 +6,8 @@ export enum ActionsTypes {
    FETCH_COIN_FAIL = 'FETCH_COIN_FAIL',
    SELECT_DATE_HISTORY_COIN = 'SELECT_DATE_HISTORY_COIN',
    UPDATE_COIN_CURRENT_PRICE_SOCKET = 'UPDATE_COIN_CURRENT_PRICE_SOCKET',
-   RESET_COIN_UPDATED_SOCKET = 'RESET_COIN_UPDATED_SOCKET'
+   RESET_COIN_UPDATED_SOCKET = 'RESET_COIN_UPDATED_SOCKET',
+   SET_COIN_RANGE_HOSTORY = 'SET_COIN_RANGE_HOSTORY'
 }
 
 export interface UpdateCoinCurrentPriceSocketActionType {
@@ -29,10 +30,10 @@ export interface FetchCoinSeccessAsyncActionType {
    payload: {
       coin: Coin,
       history: CoinHistory
-      currentPrice: number,
-      lastPrice: number
-      change: number
-      changePresent: number
+      // currentPrice: number,
+      // lastPrice: number
+      // change: number
+      // changePresent: number
    }
 }
 
@@ -50,6 +51,10 @@ export interface ResetCoinUpdatedSocketActionType {
    type: ActionsTypes.RESET_COIN_UPDATED_SOCKET,
 }
 
+export interface SetCoinHistoryRangeActionType {
+   type: ActionsTypes.SET_COIN_RANGE_HOSTORY,
+   payload: CoinHistory
+}
 
 export type CoinActions =
    FetchCoinFailAsyncActionType |
@@ -57,4 +62,5 @@ export type CoinActions =
    FetchCoinStartAsyncActionType |
    SelectDateHistoryCoinActionType |
    UpdateCoinCurrentPriceSocketActionType |
-   ResetCoinUpdatedSocketActionType
+   ResetCoinUpdatedSocketActionType |
+   SetCoinHistoryRangeActionType

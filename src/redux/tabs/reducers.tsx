@@ -9,7 +9,7 @@ const INITIAL_STATE_TABS: TabsInitialState = {
    currentTab: 'prices'
 }
 
-export default function tabsReducer(state = INITIAL_STATE_TABS, action: TabsActions) {
+export default function tabsReducer(state = INITIAL_STATE_TABS, action: TabsActions): TabsInitialState {
    switch (action.type) {
       case ActionsTypes.SET_CURRENT_TAB_ACTIVE:
          return {

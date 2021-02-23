@@ -13,8 +13,10 @@ interface Props { }
 function CoinItem({ }: Props) {
 
    const status = useSelector((state: RootState) => state.coin)
-   const updatedPrice = useSelector((state: RootState) => state.updatedCurrentPrice)
    const currentTab = useSelector((state: RootState) => state.tabs.currentTab)
+   // const updatedPrice = useSelector((state: RootState) => state.updatedCurrentPrice)
+
+   // console.log(status)
 
    let content
 
@@ -29,10 +31,7 @@ function CoinItem({ }: Props) {
    if (!status.loading && status.error === '') {
       switch (currentTab) {
          case 'prices':
-            content = <Chart
-               coinName={status.coin.name}
-               color={status.coin.color}
-            />
+            content = <Chart coinName={status.coin.name} color={status.coin.color} />
             break
          case 'live':
             content = <CoinLive />
@@ -50,17 +49,20 @@ function CoinItem({ }: Props) {
       <Card extraClass="card-coin">
          <div className="card-header">
             <CoinHeader
-               currentPriceUpdated={updatedPrice.currentPriceUpdated}
-               currentPriceUpdatedChange={updatedPrice.change}
                loadStatus={status.loading}
-               currentPrice={status.currentPrice}
                iconUrl={status.coin.iconUrl}
                color={status.coin.color}
+               currentPrice={status.currentPrice}
+            // currentPriceUpdated={updatedPrice.currentPriceUpdated}
+            // currentPriceUpdatedChange={updatedPrice.change}
             />
          </div>
          <div className="card-body">
             {content}
          </div>
+         <div className="card-footer">
+            Fotter
+        </div>
       </Card>
    )
 }

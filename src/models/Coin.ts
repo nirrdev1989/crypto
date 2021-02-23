@@ -32,24 +32,26 @@ export interface Coin {
 
 export interface CoinHistoryItem {
    price: number
+   timeStamp: number
    date: string
    time: string
 }
 
 export interface CoinHistory {
    [key: string]: {
-      firstPriceOfDay: number
-      lastPriceOfDay: number
-      array: CoinHistoryItem[]
+      firstPrice: number
+      currentPrice: number
+      data: CoinHistoryItem[]
       change: number
-      changePresentDay: number
+      changePresent: number
+      priceUp: boolean
    }
 }
 
 export interface CoinBaseInfo {
    id: number
    name: string
-   symbol: string
+   symbol?: string
    color: string | null
-   iconUrl: string
+   iconUrl?: string
 }

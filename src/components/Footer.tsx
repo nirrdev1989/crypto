@@ -4,7 +4,7 @@ function Footer() {
    return (
       <footer className="footer">
          <div className="footer-content">
-            <span>@2021</span>
+            <span>@2021 Crypto</span>
          </div>
       </footer>
    )

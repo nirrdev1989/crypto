@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { coninsBaseInfo, tabsArray } from '../../localdata/local.data'
+import { tabsArray } from '../../localdata/local.data'
 import { RootState } from '../../redux/store'
 import { setCurrentTabAction } from '../../redux/tabs/actions'
 import { fixNumber } from '../../utils/utils'
@@ -11,24 +11,23 @@ import ImageIcon from '../ImageIcon'
 interface Props {
    loadStatus: boolean
    currentPrice: number
-   iconUrl: string
    color: string
-   currentPriceUpdated: number
-   currentPriceUpdatedChange: number
+   iconUrl: string
+   // currentPriceUpdated: number
+   // currentPriceUpdatedChange: number
 }
 
 function CoinHeader({
    loadStatus,
    currentPrice,
    iconUrl,
-   currentPriceUpdated,
-   currentPriceUpdatedChange,
+   // currentPriceUpdated,
+   // currentPriceUpdatedChange,
    color
 }: Props) {
 
    const dispatch = useDispatch()
    const currentTab = useSelector((state: RootState) => state.tabs.currentTab)
-
 
    return (
       <h5 className="my-0 fw-normal card-chart-header">
@@ -47,7 +46,8 @@ function CoinHeader({
             </div>
             <div>
                <span style={{ marginRight: '0.3rem' }}>
-                  ${fixNumber(currentPriceUpdated, 3) || currentPrice}
+                  {/* ${fixNumber(currentPriceUpdated, 3) || currentPrice} */}
+                  ${currentPrice}
                </span>
                <ImageIcon
                   style={{ width: 30, height: 30 }}

@@ -6,15 +6,16 @@ interface Props {
    color?: string
    active?: boolean
    content: string
+   extraClass?: string
 }
 
-function Button({ disabled, handleClick, color, active, content }: Props) {
+function Button({ disabled, handleClick, color, active, content, extraClass }: Props) {
    return (
       <button
          disabled={disabled && disabled}
          onClick={handleClick}
-         style={{ backgroundColor: color && color, color: 'white' }}
-         className={`btn  btn-sm ${active ? 'active' : ''}`}
+         style={{ backgroundColor: color && color, color: 'white', opacity: `${active ? 1 : '0.7'}` }}
+         className={`btn ${extraClass && extraClass} btn-sm`}
       >
          {content}
       </button>

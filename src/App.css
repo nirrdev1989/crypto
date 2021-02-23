@@ -2,6 +2,9 @@
 
 header {
    background-color: var(--primary-full);
+   /* background-color: #f7931A; */
+   box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 0.2), 0 6px 20px 0 rgba(146, 146, 146, 0.19) !important;
+   /* color: rgb(224, 224, 224); */
 }
 
 /* FOOTER  */
@@ -11,6 +14,8 @@ header {
    height: 3rem;
    color: var( --primary-white);
    width: 100%;
+   box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 0.2), 0 6px 20px 0 rgba(146, 146, 146, 0.19) !important;
+   z-index: 100;
 }
 
 .footer-content {
@@ -52,9 +57,15 @@ header {
 
 .card-body {
    overflow-x: hidden;
-   max-height: 480px;
+   max-height: 490px;
    background-color: var( --primary-third);
    color: var( --primary-white);
+}
+
+.card-footer {
+   background-color: var( --primary-second);
+   color: var( --primary-white);
+   border-radius: 0px !important;
 }
 
 .card-chart-header {
@@ -91,13 +102,22 @@ header {
    font-weight: 600;
 }
 
-.chart-bar {
+.chart-selects {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 0.5rem;
+}
+
+/* .chart-bar {
    display: flex;
    justify-content: space-between;
 }
+*/
 
 .chart-prices {
    display: flex;
+   justify-content: center;
 }
 
 .chart-price-item {
@@ -163,7 +183,7 @@ header {
 .home-grid .home-grid-main {
    background-image: url("https://www.cpacanada.ca/-/media/site/operational/rg-research-guidance-and-support/images/02250-rg.jpg");
    width: 100%;
-   min-height: 550px;
+   min-height: 600px;
    background-size: cover;
    position: relative;
    padding-left: 1rem;
@@ -177,9 +197,21 @@ header {
 
 /* SIDE LIST  */
 
+/* .side-list-close {
+   width: 0%;
+   height: 0%;
+   transition: width 1s
+}
+
+.side-list-open {
+   width: 100%;
+   transition: width 1s;
+   grid-column: span 5;
+} */
+
 .side-list {
    background-color: var( --primary-second);
-   max-height: 550px;
+   max-height: 600px;
    overflow-x: hidden;
    box-sizing: border-box;
    box-shadow: 0 4px 8px 0 rgba(187, 187, 187, 0.2), 0 6px 20px 0 rgba(146, 146, 146, 0.19) !important;
@@ -189,15 +221,11 @@ header {
    list-style: none;
    color: var( --primary-white);
    display: flex;
-   /* justify-content: center; */
    align-items: center;
    flex-direction: column;
    margin-right: 1.9rem;
    margin-top: 0.5rem;
    margin-left: 0px !important;
-   /* left: 0; */
-   /* top: 0; */
-   /* width: 300px; */
 }
 
 .side-list-item {
@@ -241,13 +269,20 @@ header {
 
 .side-list::-webkit-scrollbar-thumb:hover, .card-body::-webkit-scrollbar-thumb:hover {
    background: #555;
-   color: rgb(43, 251, 164);
+   /* color: rgb(43, 251, 164); */
+}
+
+.filter-btn {
+   display: none;
 }
 
 @media screen and (max-width: 770px) {
    .home-grid .home-grid-main {
       grid-column: 5 span;
-      min-height: 650px;
+      min-height: 700px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
       /* display: flex;
       justify-content: center;
       align-items: center; */
@@ -260,6 +295,22 @@ header {
    }
    .card-coin {
       width: 100%;
+   }
+   .card-body {
+      max-height: 480px;
+   }
+   .chart-price-item {
+      font-size: 14px;
+   }
+   .side-list-close {
+      height: 0;
+      transition: height 1s;
+   }
+   .current-date {
+      margin-bottom: 0.7rem;
+   }
+   .filter-btn {
+      display: block;
    }
 }
 
@@ -282,7 +333,10 @@ header {
    }
    .home-grid .home-grid-main {
       grid-column: 5 span;
-      min-height: 650px;
+      min-height: 700px;
+      width: 100%;
+      margin: 0;
+      padding: 0;
    }
    .home-grid .home-grid-side-list {
       grid-column: 5 span;
@@ -300,5 +354,15 @@ header {
    }
    .live-prcies {
       font-size: 23px;
+   }
+   .card-body {
+      min-height: 560px;
+   }
+   .current-date {
+      margin-bottom: 0.7rem;
+      margin-top: 0.7rem;
+   }
+   .filter-btn {
+      display: block;
    }
 }

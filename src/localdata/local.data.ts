@@ -1,5 +1,38 @@
 import { CoinBaseInfo } from "../models/Coin";
 
+export interface Range {
+   from: number
+   to: number
+   type: string
+}
+
+export interface RangeData {
+   [key: string]: Range
+}
+
+let now = new Date().getTime()
+let hour = 1000 * 60 * 60
+let day = hour * 24
+let mount = day * 30
+
+export const ranges: RangeData = {
+   '1h': {
+      type: '1h',
+      from: now - hour,
+      to: now
+   },
+   '24h': {
+      type: '24h',
+      from: now - day,
+      to: now
+   },
+   'week': {
+      type: 'week',
+      from: now - mount,
+      to: now
+   }
+}
+
 export interface Tabs {
    value: any
    content: string
@@ -94,7 +127,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 1760,
    symbol: "USDC",
    name: "USDC",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/jkDf8sQbY/usdc.svg"
 }, {
    id: 20,
@@ -112,13 +145,13 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 10607,
    symbol: "WBTC***",
    name: "Wrapped BTC",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/o3-8cvCHu/wbtc[1].svg"
 }, {
    id: 62458,
    symbol: "LUNA*",
    name: "Terra",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/F-PJdF8Um/LUNA.svg"
 }, {
    id: 4966,
@@ -172,13 +205,13 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 14585,
    symbol: "ALGO",
    name: "Algorand",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/lzbmCkUGB/algo.svg"
 }, {
    id: 78340,
    symbol: "GRT***",
    name: "The Graph",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/g6FVr-7Vs/grt.png"
 }, {
    id: 18,
@@ -226,7 +259,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 10883,
    symbol: "SNX",
    name: "Synthetix Network",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/c2WntZSPs/snx-synthetix.png"
 }, {
    id: 13,
@@ -250,13 +283,13 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 68905,
    symbol: "SOL*",
    name: "Solana",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/yvUG4Qex5/solana.svg"
 }, {
    id: 62569,
    symbol: "FTT**",
    name: "FTX Token",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/WyBm4_EzM/ftx-exchange.svg"
 }, {
    id: 22,
@@ -268,7 +301,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 72103,
    symbol: "SUSHI",
    name: "SUSHI",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/eKKejWkdo/sushiswap.png"
 }, {
    id: 74500,
@@ -280,7 +313,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 68589,
    symbol: "DAI",
    name: "Dai",
-   color: null,
+   color: '#808080',
    iconUrl: "https://cdn.coinranking.com/mAZ_7LwOE/mutli-collateral-dai.svg"
 }, {
    id: 4303,
@@ -292,7 +325,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 57612,
    symbol: "KSM",
    name: "Kusama",
-   color: null,
+   color: '#effff',
    iconUrl: "https://cdn.coinranking.com/HhSqAIEpK/kusama[1].svg"
 }, {
    id: 21,
