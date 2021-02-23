@@ -16,7 +16,7 @@ function CoinItem({ }: Props) {
    const currentTab = useSelector((state: RootState) => state.tabs.currentTab)
    // const updatedPrice = useSelector((state: RootState) => state.updatedCurrentPrice)
 
-   // console.log(status)
+   console.log(status)
 
    let content
 

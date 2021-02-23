@@ -14,6 +14,7 @@ let now = new Date().getTime()
 let hour = 1000 * 60 * 60
 let day = hour * 24
 let mount = day * 30
+let lastDateActive = 1392577232 * 1000
 
 export const ranges: RangeData = {
    '1h': {
@@ -28,7 +29,22 @@ export const ranges: RangeData = {
    },
    'week': {
       type: 'week',
+      from: now - (day * 7),
+      to: now
+   },
+   'mount': {
+      type: 'mount',
       from: now - mount,
+      to: now
+   },
+   'year': {
+      type: 'year',
+      from: now - (day * 365),
+      to: now
+   },
+   'all': {
+      type: 'all',
+      from: lastDateActive,
       to: now
    }
 }
@@ -50,6 +66,8 @@ export const tabsArray: Tabs[] = [{
    value: 'live',
    content: 'Live'
 }]
+
+
 
 export const coninsBaseInfo: CoinBaseInfo[] = [{
    id: 1,
@@ -78,7 +96,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 8,
    symbol: "USDT",
-   name: "Tether USD",
+   name: "Tether",
    color: "#22a079",
    iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg"
 }, {

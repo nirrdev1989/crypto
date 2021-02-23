@@ -6,21 +6,9 @@ interface CoinInitialState {
    coin: Coin,
    loading: boolean
    error: string
-   // coinHistory: CoinHistory
    currentPrice: number
    currentRangeSelected: string
-   // datesCount: number
-   // dateSelectedItems: CoinHistoryItem[]
-   // currentPrice: number,
-   // lastPrice: number
-   // lastPriceDaySelected: number
-   // firstPriceDaySelected: number
-   // changeAllDays: number,
-   // changeDay: number,
-   // changePresentDay: number,
-   // lastDate: string,
-   // changeAllDaysPresent: number,
-   // currentCoinId: number
+   coinChange: boolean
 }
 
 const INITIAL_STATE_COIN: CoinInitialState = {
@@ -28,20 +16,8 @@ const INITIAL_STATE_COIN: CoinInitialState = {
    loading: false,
    error: '',
    currentPrice: 0,
-   // coinHistory: {} as CoinHistory,
    currentRangeSelected: '1h',
-   // datesCount: 0,
-   // dateSelectedItems: [],
-   // currentPrice: 0,
-   // lastPrice: 0,
-   // lastPriceDaySelected: 0,
-   // firstPriceDaySelected: 0,
-   // changeAllDays: 0,
-   // changeDay: 0,
-   // lastDate: '',
-   // changeAllDaysPresent: 0,
-   // changePresentDay: 0,
-   // currentCoinId: 0
+   coinChange: false
 }
 
 export function coinReducer(state = INITIAL_STATE_COIN, action: CoinActions): CoinInitialState {
@@ -52,9 +28,6 @@ export function coinReducer(state = INITIAL_STATE_COIN, action: CoinActions): Co
             loading: true
          }
       case ActionsTypes.FETCH_COIN_SUCCESS:
-         // let historyValues = Object.values(action.payload.history)
-         // let historyKeys = Object.keys(action.payload.history)
-         // let historyKeysLength = Object.keys(action.payload.history).length
 
          let currentRange = Object.keys(action.payload.history)[0]
          let currentPrice = fixNumber(action.payload.coin.price, 3)
@@ -66,68 +39,18 @@ export function coinReducer(state = INITIAL_STATE_COIN, action: CoinActions): Co
          }
          return {
             ...state,
+            error: '',
             loading: false,
             coin: action.payload.coin,
-            // coinHistory: action.payload.history,
             currentRangeSelected: currentRange,
             currentPrice: currentPrice
-            // dateSelectedItems: action.payload.history[currentDate]
          }
-
-      // console.log
-
-      // return {
-      //    ...state,
-      //    loading: false,
-      //    coin: action.payload.coin,
-      //    coinHistory: action.payload.history,
-      //    datesCount: historyKeysLength,
-      //    dateSelectedItems: historyValues[historyKeysLength - 1].array,
-      //    lastPriceDaySelected: historyValues[historyKeysLength - 1].currentPrice,
-      //    firstPriceDaySelected: historyValues[historyKeysLength - 1].firstPrice,
-      //    error: '',
-      //    currentDateSelected: historyKeys[historyKeysLength - 1],
-      //    currentPrice: fixNumber(action.payload.currentPrice, 3),
-      //    lastPrice: action.payload.lastPrice,
-      //    changeDay: historyValues[historyKeysLength - 1].change,
-      //    changeAllDays: action.payload.change,
-      //    lastDate: historyKeys[historyKeysLength - 1],
-      //    changeAllDaysPresent: action.payload.changePresent,
-      //    changePresentDay: historyValues[historyKeysLength - 1].changePresent,
-      //    currentCoinId: action.payload.coin.id
-      // }
       case ActionsTypes.FETCH_COIN_FAIL:
          return {
             ...state,
             loading: false,
             error: action.payload
          }
-      case ActionsTypes.SELECT_DATE_HISTORY_COIN:
-         // let date = action.payload
-
-         // let listHistgory: CoinHistoryItem[] = []
-
-         // if (date === 'all') {
-         //    for (const h of Object.values(state.coinHistory)) {
-         //       listHistgory.push(...h.array)
-         //    }
-         // } else {
-         //    // console.log(state.coinHistory)
-         //    console.log(Object.keys(state.coinHistory)[0])
-         //    console.log(date)
-         //    listHistgory = [...state.coinHistory[date].array]
-         // }
-
-         // return {
-         //    ...state,
-         //    dateSelectedItems: listHistgory,
-         //    currentDateSelected: action.payload,
-         //    lastPriceDaySelected: date === 'all' ? state.currentPrice : state.coinHistory[date].currentPrice,
-         //    firstPriceDaySelected: date === 'all' ? state.lastPrice : state.coinHistory[date].firstPrice,
-         //    changeDay: date === 'all' ? state.changeAllDays : state.coinHistory[date].change,
-         //    changePresentDay: date === 'all' ? state.changeAllDaysPresent : state.coinHistory[date].changePresent
-         // }
-         return state
       default:
          return state
    }
@@ -143,6 +66,8 @@ interface CoinHistoryState {
    changePresent: number
    historyItems: CoinHistoryItem[],
    priceUp: boolean
+   loadingHistory: boolean
+   error: string
 }
 
 const INITIAL_STATE_COIN_HISTORY: CoinHistoryState = {
@@ -153,16 +78,32 @@ const INITIAL_STATE_COIN_HISTORY: CoinHistoryState = {
    priceEndOfRange: 0,
    priceStartOfRange: 0,
    historyItems: [],
-   priceUp: false
+   priceUp: false,
+   loadingHistory: false,
+   error: ''
 }
 
 export function coinHostoryReducer(state = INITIAL_STATE_COIN_HISTORY, action: CoinActions) {
    switch (action.type) {
+      case ActionsTypes.FETCH_COIN_HISTORY_CHANGE_START:
+         return {
+            ...state,
+            loadingHistory: true
+         }
       case ActionsTypes.SET_COIN_RANGE_HOSTORY:
          let currentRange = Object.keys(action.payload)[0]
 
+         let chaheHistory = state.coinHistory
+
+         chaheHistory[currentRange] = action.payload[currentRange]
+
+         console.log(state.coinHistory)
+
          return {
             ...state,
+            coinHistory: chaheHistory,
+            loadingHistory: false,
+            error: '',
             change: action.payload[currentRange].change,
             changePresent: action.payload[currentRange].changePresent,
             priceEndOfRange: action.payload[currentRange].currentPrice,
@@ -170,6 +111,25 @@ export function coinHostoryReducer(state = INITIAL_STATE_COIN_HISTORY, action: C
             historyItems: action.payload[currentRange].data,
             priceUp: action.payload[currentRange].priceUp,
             currentRangeSelected: currentRange
+         }
+      case ActionsTypes.FETCH_COIN_HISTORY_CHANGE_FAIL:
+         return {
+            ...state,
+            loadingHistory: false,
+            error: action.payload
+         }
+      case ActionsTypes.RESET_COIN:
+         return {
+            coinHistory: {} as CoinHistory,
+            change: 0,
+            currentRangeSelected: '1h',
+            changePresent: 0,
+            priceEndOfRange: 0,
+            priceStartOfRange: 0,
+            historyItems: [],
+            priceUp: false,
+            loadingHistory: false,
+            error: ''
          }
       default:
          return state

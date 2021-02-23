@@ -6,7 +6,8 @@ import { RootState } from '../../redux/store';
 // import { countDates } from "../../utils/utils";
 import Loader from '../Loader';
 import ChartToolBar from './ChartToolBar';
-import { selectCoinHistoryDateAction, updateCoinCurrentPriceSocketAction } from '../../redux/coins/actions';
+import { fetchCoinHistoryChangeAction, selectCoinHistoryDateAction, updateCoinCurrentPriceSocketAction } from '../../redux/coins/actions';
+import { ranges } from "../../localdata/local.data";
 
 
 function chartOptions() {
@@ -45,10 +46,20 @@ function chartOptions() {
    return options
 }
 
-function dispalyData(label: any, color: string, data: any[], currentDateSelected: string, currentPriceUpdated?: any) {
+function dispalyData(label: any, color: string, data: any[], currentRangeSelected: string, currentPriceUpdated?: any) {
    if (data.length) {
       return {
-         labels: data.map((i) => currentDateSelected === 'all' ? i.date : i.time),
+         labels: data.map((i) => {
+            if (
+               currentRangeSelected === 'week' ||
+               currentRangeSelected === 'mount' ||
+               currentRangeSelected === 'year' ||
+               currentRangeSelected === 'all'
+            ) {
+               return i.date
+            }
+            return i.time
+         }),
          datasets: [
             {
                label: label + '/' + data[0].date,
@@ -82,7 +93,7 @@ function Chart({ coinName, color }: Props) {
 
    const currentPriceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPriceUpdated)
 
-   const { loading, currentRangeSelected } = useSelector((state: RootState) => state.coin)
+   const { loading, coin: { name }, currentRangeSelected } = useSelector((state: RootState) => state.coin)
 
    const coinHistory = useSelector((state: RootState) => state.coinHistory)
 
@@ -93,47 +104,52 @@ function Chart({ coinName, color }: Props) {
 
    function handleChangeRange(event: React.ChangeEvent<HTMLSelectElement>) {
       const { value } = event.target
-      dispatch(selectCoinHistoryDateAction(value))
+      // dispatch(selectCoinHistoryDateAction(value))
+      console.log(coinHistory)
+      dispatch(fetchCoinHistoryChangeAction(name, ranges[value], coinHistory.coinHistory))
    }
+
+   // console.log(coinHistory)
 
    let chart
+   if (!coinHistory.loadingHistory) {
+      if (chartPresentetion === 'Bar' && coinHistory.historyItems.length) {
+         chart = <Bar
+            type="bar"
+            data={dispalyData(coinName, color, coinHistory.historyItems, coinHistory.currentRangeSelected, currentPriceUpdated)}
+            options={chartOptions()}
+            height={60}
+         />
+      }
 
-   if (chartPresentetion === 'Bar' && coinHistory.historyItems.length) {
-      chart = <Bar
-         type="bar"
-         data={dispalyData(coinName, color, coinHistory.historyItems, currentRangeSelected, currentPriceUpdated)}
-         options={chartOptions()}
-         height={60}
-      />
-   }
+      else if (chartPresentetion === 'HorizontalBar' && coinHistory.historyItems.length) {
+         chart = <HorizontalBar
+            type="horizontalBar"
+            data={dispalyData(coinName, color, coinHistory.historyItems, coinHistory.currentRangeSelected)}
+            options={chartOptions()}
+            height={60}
+         />
+      }
 
-   else if (chartPresentetion === 'HorizontalBar' && coinHistory.historyItems.length) {
-      chart = <HorizontalBar
-         type="horizontalBar"
-         data={dispalyData(coinName, color, coinHistory.historyItems, currentRangeSelected)}
-         options={chartOptions()}
-         height={60}
-      />
-   }
-
-   else if (chartPresentetion === 'Line' && coinHistory.historyItems.length) {
-      chart = <Line
-         type="line"
-         data={dispalyData(coinName, color, coinHistory.historyItems, currentRangeSelected)}
-         options={chartOptions()}
-         height={60}
-      />
+      else if (chartPresentetion === 'Line' && coinHistory.historyItems.length) {
+         chart = <Line
+            type="line"
+            data={dispalyData(coinName, color, coinHistory.historyItems, coinHistory.currentRangeSelected)}
+            options={chartOptions()}
+            height={60}
+         />
+      }
    }
 
    return (
       <React.Fragment>
-         {loading ? <Loader /> :
+         {loading || coinHistory.loadingHistory ? <Loader /> :
             <React.Fragment>
                <ChartToolBar
                   handleChangeRange={handleChangeRange}
                   handleChangeChartPresent={handleChangeChartPresent}
                   present={chartPresentetion}
-                  currentRangeSelected={currentRangeSelected}
+                  currentRangeSelected={coinHistory.currentRangeSelected}
                   change={coinHistory.change}
                   changePresent={coinHistory.changePresent}
                   currentPrice={coinHistory.priceEndOfRange}

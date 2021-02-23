@@ -15,7 +15,9 @@ function SideList() {
    const dispatch = useDispatch()
 
    const [currentCoinSelected, setCurrentCoinSelected] = React.useState<CoinBaseInfo>(coninsBaseInfo[0])
-   const curretDate = useSelector((state: RootState) => state.coin.currentRangeSelected)
+   const currentRangeSelected = useSelector((state: RootState) => state.coin.currentRangeSelected)
+
+   console.log(currentRangeSelected)
 
    function onSelectCoin(currentCoin: CoinBaseInfo) {
       setCurrentCoinSelected(() => currentCoin)
@@ -24,7 +26,7 @@ function SideList() {
    React.useEffect(() => {
       // const { from, to } = unixTimestamp(day, now)
       dispatch(currentCoinSelectedAction(currentCoinSelected))
-      dispatch(fetchCoinAction(currentCoinSelected, ranges[curretDate]))
+      dispatch(fetchCoinAction(currentCoinSelected, ranges[currentRangeSelected]))
    }, [currentCoinSelected])
 
    return (
