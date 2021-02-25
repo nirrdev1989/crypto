@@ -1,6 +1,6 @@
-<img src="screenshot/MAIN.png">
-<img src="screenshot/MAIN-2.png">
-<img src ="screenshot/MOBILE.png">
+<img src="screenshots/MAIN.png">
+<img src="screenshots/MAIN-2.png">
+<img src ="screenshots/MOBILE.png">
 
 
 
