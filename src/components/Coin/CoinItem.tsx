@@ -14,9 +14,8 @@ function CoinItem({ }: Props) {
 
    const status = useSelector((state: RootState) => state.coin)
    const currentTab = useSelector((state: RootState) => state.tabs.currentTab)
-   // const updatedPrice = useSelector((state: RootState) => state.updatedCurrentPrice)
 
-   console.log(status)
+   console.log('COIN ITEM')
 
    let content
 
@@ -39,7 +38,11 @@ function CoinItem({ }: Props) {
          case 'description':
             content = <CoinDescription coin={status.coin} />
             break
+         // case 'custom-dates':
+         //    content = <Chart customRange={true} coinName={status.coin.name} color={status.coin.color} />
+         //    break
          default:
+            content = <p>Some problem</p>
             break;
       }
    }
@@ -53,16 +56,14 @@ function CoinItem({ }: Props) {
                iconUrl={status.coin.iconUrl}
                color={status.coin.color}
                currentPrice={status.currentPrice}
-            // currentPriceUpdated={updatedPrice.currentPriceUpdated}
-            // currentPriceUpdatedChange={updatedPrice.change}
             />
          </div>
          <div className="card-body">
             {content}
          </div>
          <div className="card-footer">
-            Fotter
-        </div>
+
+         </div>
       </Card>
    )
 }

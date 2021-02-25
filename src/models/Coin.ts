@@ -44,7 +44,8 @@ export interface CoinHistory {
       data: CoinHistoryItem[]
       change: number
       changePresent: number
-      priceUp: boolean
+      priceUp: boolean,
+      lastCache?: number
    }
 }
 
@@ -54,4 +55,18 @@ export interface CoinBaseInfo {
    symbol?: string
    color: string | null
    iconUrl?: string
+}
+
+export interface CacheHistory {
+   type: string
+   timer: number
+}
+
+export interface UpdateCoinPriceSocket {
+   change: number
+   changePresent: number
+   currentPrice: number
+   prevPrice: number
+   priceUp: boolean
+   isPriceChange: boolean
 }

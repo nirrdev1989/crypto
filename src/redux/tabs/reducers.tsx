@@ -1,4 +1,4 @@
-import { ActionsTypes, TabsActions } from "./actions.types";
+import { ActionsTypesTabs, TabsActions } from "./actions.types";
 
 
 interface TabsInitialState {
@@ -11,7 +11,7 @@ const INITIAL_STATE_TABS: TabsInitialState = {
 
 export default function tabsReducer(state = INITIAL_STATE_TABS, action: TabsActions): TabsInitialState {
    switch (action.type) {
-      case ActionsTypes.SET_CURRENT_TAB_ACTIVE:
+      case ActionsTypesTabs.SET_CURRENT_TAB_ACTIVE:
          return {
             ...state,
             currentTab: action.payload

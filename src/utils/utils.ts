@@ -1,18 +1,13 @@
 export function countDates(count: number): string[] {
-   // console.log(parts)
-   // let date = `${parts.day}/${parts.month}/${parts.year}`;
    const options = { day: 'numeric', month: 'numeric', year: 'numeric' }
+   // datesArray.push(new Date(today).toLocaleDateString('de-DE', options))
    let datesArray: string[] = []
    let day = 1000 * 60 * 60 * 24
    let today = new Date().getTime()
 
    for (let i = 0; i < count; i++) {
       let parts = dateTimeFormat(today)
-
-      // let date = new Date(today).toLocaleDateString('de-DE', options)
-      // datesArray.push()
       datesArray.push(`${parts.day}/${parts.month}/${parts.year}`)
-      // datesArray.push(new Date(today).toLocaleDateString('de-DE', options))
       today -= day
    }
 
@@ -57,6 +52,27 @@ export function unixTimestamp(from: number, to: number) {
       from: F,
       to: T
    }
+}
+
+export function saveLocalStorage(key: string, data: any) {
+   localStorage.setItem(key, JSON.stringify(data))
+}
+
+export function getLocalStorage(key: string): any {
+   // let type = dataType === 'string' ? '' : dataType === 'object' ? {} : []
+   let data = localStorage.getItem(key)
+   data = data ? JSON.parse(data) : null
+   return data
+}
+
+export function removeLocalStorage(key: string) {
+   localStorage.removeItem(key)
+}
+
+export function removeLocalStorageWithTimer(key: string, seconds: number) {
+   setTimeout(() => {
+      removeLocalStorage(key)
+   }, 1000 * seconds);
 }
 
 

@@ -1,6 +1,6 @@
-import { Coin, CoinHistory, CoinHistoryItem } from "../../models/Coin";
-import { ActionsTypes, CoinActions } from "./actions.types";
-import { fixNumber, getRange } from "../../utils/utils";
+import { Coin, CoinHistory, CoinHistoryItem, UpdateCoinPriceSocket } from "../../models/Coin";
+import { ActionsTypesCoin, CoinActions } from "./actions.types";
+import { fixNumber, getLocalStorage, getRange, removeLocalStorageWithTimer, saveLocalStorage } from "../../utils/utils";
 
 interface CoinInitialState {
    coin: Coin,
@@ -22,17 +22,15 @@ const INITIAL_STATE_COIN: CoinInitialState = {
 
 export function coinReducer(state = INITIAL_STATE_COIN, action: CoinActions): CoinInitialState {
    switch (action.type) {
-      case ActionsTypes.FETCH_COIN_START:
+      case ActionsTypesCoin.FETCH_COIN_START:
          return {
             ...state,
             loading: true
          }
-      case ActionsTypes.FETCH_COIN_SUCCESS:
+      case ActionsTypesCoin.FETCH_COIN_SUCCESS:
 
          let currentRange = Object.keys(action.payload.history)[0]
          let currentPrice = fixNumber(action.payload.coin.price, 3)
-
-         console.log(currentRange)
 
          if (action.payload.coin.color === null) {
             action.payload.coin.color = '#808080'
@@ -45,7 +43,7 @@ export function coinReducer(state = INITIAL_STATE_COIN, action: CoinActions): Co
             currentRangeSelected: currentRange,
             currentPrice: currentPrice
          }
-      case ActionsTypes.FETCH_COIN_FAIL:
+      case ActionsTypesCoin.FETCH_COIN_FAIL:
          return {
             ...state,
             loading: false,
@@ -85,23 +83,31 @@ const INITIAL_STATE_COIN_HISTORY: CoinHistoryState = {
 
 export function coinHostoryReducer(state = INITIAL_STATE_COIN_HISTORY, action: CoinActions) {
    switch (action.type) {
-      case ActionsTypes.FETCH_COIN_HISTORY_CHANGE_START:
+      case ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_START:
          return {
             ...state,
             loadingHistory: true
          }
-      case ActionsTypes.SET_COIN_RANGE_HOSTORY:
+      case ActionsTypesCoin.SET_COIN_RANGE_HOSTORY:
          let currentRange = Object.keys(action.payload)[0]
+         // let cacheHistory = state.coinHistory
+         let cacheHistory = getLocalStorage('history-cache') || {}
 
-         let chaheHistory = state.coinHistory
+         let coinHistory = state.coinHistory
 
-         chaheHistory[currentRange] = action.payload[currentRange]
+         coinHistory[currentRange] = action.payload[currentRange]
+
+         cacheHistory[currentRange] = { type: currentRange }
+
+         // cacheHistory[currentRange].lastCache = new Date().getTime()
+         saveLocalStorage('history-cache', cacheHistory)
+         removeLocalStorageWithTimer('history-cache', 300)
 
          console.log(state.coinHistory)
 
          return {
             ...state,
-            coinHistory: chaheHistory,
+            coinHistory: coinHistory,
             loadingHistory: false,
             error: '',
             change: action.payload[currentRange].change,
@@ -112,13 +118,13 @@ export function coinHostoryReducer(state = INITIAL_STATE_COIN_HISTORY, action: C
             priceUp: action.payload[currentRange].priceUp,
             currentRangeSelected: currentRange
          }
-      case ActionsTypes.FETCH_COIN_HISTORY_CHANGE_FAIL:
+      case ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_FAIL:
          return {
             ...state,
             loadingHistory: false,
             error: action.payload
          }
-      case ActionsTypes.RESET_COIN:
+      case ActionsTypesCoin.RESET_COIN:
          return {
             coinHistory: {} as CoinHistory,
             change: 0,
@@ -137,28 +143,15 @@ export function coinHostoryReducer(state = INITIAL_STATE_COIN_HISTORY, action: C
 }
 
 
-interface UpdateCoinCurrentPriceSocketState {
-   coinId: number
-   currentPriceUpdated: number
-   error: string
-   change: number
-   time: string
-   presentChange: number
-   priceUp: boolean
-   isPriceChange: boolean
-   prevPrice: number
-}
+interface UpdateCoinCurrentPriceSocketState extends UpdateCoinPriceSocket { }
 
 const INITIAL_STATE_UPDATE_COIN_CURRENT_PRICE_SOCKET: UpdateCoinCurrentPriceSocketState = {
-   coinId: 0,
-   currentPriceUpdated: 0,
-   error: '',
    change: 0,
-   time: '',
-   presentChange: 0,
+   changePresent: 0,
+   currentPrice: 0,
+   prevPrice: 0,
    priceUp: false,
-   isPriceChange: false,
-   prevPrice: 0
+   isPriceChange: false
 }
 
 export function updateCoinCurrentPriceSocketReducer(
@@ -166,52 +159,28 @@ export function updateCoinCurrentPriceSocketReducer(
    action: CoinActions
 ): UpdateCoinCurrentPriceSocketState {
    switch (action.type) {
-      case ActionsTypes.UPDATE_COIN_CURRENT_PRICE_SOCKET:
-         let changeCurrentPricePresent: number = 0
-         let changeCurrentPrice: number = 0
-         // let currentPriceChange: number = state.currentPriceUpdated || 0
-         let isPriceUp: boolean = false
-         let priceChange: boolean = false
-
-
-         console.log('STATE CURRENT PICE: ', state.currentPriceUpdated)
-         console.log('NEW CURRENT PRICE: : ', action.payload.updatedCurrentPrice)
-
-         if (state.currentPriceUpdated === action.payload.updatedCurrentPrice) {
-            isPriceUp = state.priceUp
-         }
-
-         else if (state.currentPriceUpdated !== 0) {
-            let onePresent = state.currentPriceUpdated / 100
-            changeCurrentPrice = fixNumber(getRange(state.currentPriceUpdated, action.payload.updatedCurrentPrice), 3)
-            // console.log('CHANGE PIRCE RANGE: ', changeCurrentPrice)
-            changeCurrentPricePresent = fixNumber(changeCurrentPrice / onePresent, 3)
-            // console.log('CHANGE PIRCE PRESENT: ', changeCurrentPricePresent)
-            isPriceUp = action.payload.updatedCurrentPrice > state.currentPriceUpdated
-            priceChange = true
-         }
+      case ActionsTypesCoin.UPDATE_COIN_CURRENT_PRICE_SOCKET:
+         console.log(action.payload)
+         let changePresent = action.payload.isPriceChange ? action.payload.changePresent : state.changePresent
+         let change = action.payload.isPriceChange ? action.payload.change : state.change
 
          return {
             ...state,
-            currentPriceUpdated: action.payload.updatedCurrentPrice,
-            time: new Date().toLocaleTimeString(),
-            presentChange: changeCurrentPricePresent || state.presentChange,
-            change: changeCurrentPrice || state.change,
-            priceUp: isPriceUp,
-            isPriceChange: priceChange,
-            prevPrice: state.prevPrice
+            change: change,
+            changePresent: changePresent,
+            currentPrice: action.payload.currentPrice,
+            prevPrice: action.payload.prevPrice,
+            priceUp: action.payload.priceUp,
+            isPriceChange: action.payload.isPriceChange
          }
-      case ActionsTypes.RESET_COIN_UPDATED_SOCKET:
+      case ActionsTypesCoin.RESET_COIN_UPDATED_SOCKET:
          return {
-            coinId: 0,
-            currentPriceUpdated: 0,
-            error: '',
             change: 0,
-            time: '',
-            presentChange: 0,
+            changePresent: 0,
+            currentPrice: 0,
+            prevPrice: 0,
             priceUp: false,
-            isPriceChange: false,
-            prevPrice: 0
+            isPriceChange: false
          }
       default:
          return state

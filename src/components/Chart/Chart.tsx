@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Bar, HorizontalBar, Line, } from "react-chartjs-2";
 import { useDispatch, useSelector } from 'react-redux';
-// import { CoinHistoryItem } from '../../models/Coin';
 import { RootState } from '../../redux/store';
-// import { countDates } from "../../utils/utils";
 import Loader from '../Loader';
 import ChartToolBar from './ChartToolBar';
-import { fetchCoinHistoryChangeAction, selectCoinHistoryDateAction, updateCoinCurrentPriceSocketAction } from '../../redux/coins/actions';
+import { fetchCoinHistoryChangeAction } from '../../redux/coins/actions';
 import { ranges } from "../../localdata/local.data";
 
 
@@ -27,16 +25,16 @@ function chartOptions() {
          },
          yAxes: [{
             ticks: {
-               beginAtZero: true,
-               min: 0,
+               // beginAtZero: true,
+               // min: 0,
                fontStyle: "bold",
                fontColor: 'rgb(255, 255, 255)'
             },
          }],
          xAxes: [{
             ticks: {
-               beginAtZero: true,
-               min: 0,
+               // beginAtZero: true,
+               // min: 0,
                fontStyle: "bold",
                fontColor: 'rgb(255, 255, 255)'
             },
@@ -51,12 +49,17 @@ function dispalyData(label: any, color: string, data: any[], currentRangeSelecte
       return {
          labels: data.map((i) => {
             if (
+               currentRangeSelected === '3day' ||
                currentRangeSelected === 'week' ||
+               currentRangeSelected === '2week' ||
                currentRangeSelected === 'mount' ||
-               currentRangeSelected === 'year' ||
-               currentRangeSelected === 'all'
+               currentRangeSelected === '3mount' ||
+               currentRangeSelected === '6mount' ||
+               currentRangeSelected === 'year'
             ) {
                return i.date
+            } else if (currentRangeSelected === 'all') {
+               return i.date.split('/')[2]
             }
             return i.time
          }),
@@ -84,16 +87,18 @@ interface Props {
    coinName: string
    color: string
    coinSelectedId?: number
+   // customRange: boolean
 }
 
 function Chart({ coinName, color }: Props) {
    const [chartPresentetion, setChartPresentetion] = useState('Bar')
+   // const [customDates, setCustomDates] = React.useState<boolean>(false)
 
    const dispatch = useDispatch()
 
-   const currentPriceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPriceUpdated)
+   // const currentPriceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPriceUpdated)
 
-   const { loading, coin: { name }, currentRangeSelected } = useSelector((state: RootState) => state.coin)
+   const { loading } = useSelector((state: RootState) => state.coin)
 
    const coinHistory = useSelector((state: RootState) => state.coinHistory)
 
@@ -106,17 +111,16 @@ function Chart({ coinName, color }: Props) {
       const { value } = event.target
       // dispatch(selectCoinHistoryDateAction(value))
       console.log(coinHistory)
-      dispatch(fetchCoinHistoryChangeAction(name, ranges[value], coinHistory.coinHistory))
+      dispatch(fetchCoinHistoryChangeAction(coinName, ranges[value], coinHistory.coinHistory))
    }
 
-   // console.log(coinHistory)
-
    let chart
+
    if (!coinHistory.loadingHistory) {
       if (chartPresentetion === 'Bar' && coinHistory.historyItems.length) {
          chart = <Bar
             type="bar"
-            data={dispalyData(coinName, color, coinHistory.historyItems, coinHistory.currentRangeSelected, currentPriceUpdated)}
+            data={dispalyData(coinName, color, coinHistory.historyItems, coinHistory.currentRangeSelected)}
             options={chartOptions()}
             height={60}
          />
@@ -155,6 +159,10 @@ function Chart({ coinName, color }: Props) {
                   currentPrice={coinHistory.priceEndOfRange}
                   firstPrice={coinHistory.priceStartOfRange}
                   priceUp={coinHistory.priceUp}
+                  coinName={coinName}
+               // customDates={customDates}
+               // handleCustomDates={() => setCustomDates((prev) => !prev)}
+               // customRange={customRange}
                />
                <div style={{ height: '50vh', width: '100%' }}>
                   {chart}

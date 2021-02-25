@@ -1,93 +1,112 @@
 import { Dispatch } from "react";
-import { singleCoin } from "../../api/api";
+import { coinHistoryRange, coinHistoryRangeChange } from "../../api/api";
 import { Range } from "../../localdata/local.data";
-import { CoinBaseInfo, CoinHistory } from "../../models/Coin";
-import { ActionsTypes, CoinActions } from "./actions.types";
+import { CoinBaseInfo, CoinHistory, CacheHistory, UpdateCoinPriceSocket } from "../../models/Coin";
+import { getLocalStorage, removeLocalStorage, saveLocalStorage } from "../../utils/utils";
+import { ActionsTypesCoin, CoinActions } from "./actions.types";
 
 
 export function selectCoinHistoryDateAction(date: string) {
    return {
-      type: ActionsTypes.SELECT_DATE_HISTORY_COIN,
+      type: ActionsTypesCoin.SELECT_DATE_HISTORY_COIN,
       payload: date
    }
 }
 
 export function setCoinHistoryRangeAction(coinHistory: CoinHistory) {
    return {
-      type: ActionsTypes.SET_COIN_RANGE_HOSTORY,
+      type: ActionsTypesCoin.SET_COIN_RANGE_HOSTORY,
       payload: coinHistory
    }
 }
 
-export function updateCoinCurrentPriceSocketAction(updatedCurrentPrice: number, change: number) {
+export function updateCoinCurrentPriceSocketAction(updatedInfo: UpdateCoinPriceSocket) {
    return {
-      type: ActionsTypes.UPDATE_COIN_CURRENT_PRICE_SOCKET,
-      payload: {
-         updatedCurrentPrice: updatedCurrentPrice,
-         change: change
-      }
+      type: ActionsTypesCoin.UPDATE_COIN_CURRENT_PRICE_SOCKET,
+      payload: updatedInfo
    }
 }
 
 export function fetchCoinAction(currentCoin: CoinBaseInfo, range: Range) {
    return async function (dispatch: Dispatch<CoinActions>) {
-
-      dispatch({ type: ActionsTypes.FETCH_COIN_START })
-      // dispatch({ type: ActionsTypes.RESET_COIN_UPDATED_SOCKET })
-      dispatch({ type: ActionsTypes.RESET_COIN })
+      removeLocalStorage('history-cache')
+      dispatch({ type: ActionsTypesCoin.FETCH_COIN_START })
+      dispatch({ type: ActionsTypesCoin.RESET_COIN })
+      // dispatch({ type: ActionsTypesCoin.RESET_COIN_UPDATED_SOCKET })
 
       const { type, from, to } = range
 
-      // console.log('From: ', from, 'To: ', to)
-      // / coin - range / bitcoin ? from = "" & to=""
-      // http://localhost:3007/coins/coin-range/${id}?from=${from}&to=${to}
-
       try {
          const response = await fetch(
-            `http://localhost:3007/coins/coin-range/${currentCoin.id}/${currentCoin.name}?from=${from}&to=${to}&type=${type}`
+            `${coinHistoryRange}/${currentCoin.id}/${currentCoin.name}?from=${from}&to=${to}&type=${type}`
          )
          if (response.ok) {
             const data = await response.json()
             // console.log(data)
-            dispatch({ type: ActionsTypes.FETCH_COIN_SUCCESS, payload: data })
-            dispatch({ type: ActionsTypes.SET_COIN_RANGE_HOSTORY, payload: data.history })
+            dispatch({ type: ActionsTypesCoin.FETCH_COIN_SUCCESS, payload: data })
+            dispatch({ type: ActionsTypesCoin.SET_COIN_RANGE_HOSTORY, payload: data.history })
          } else {
             throw new Error('Error')
          }
       } catch (error) {
-         dispatch({ type: ActionsTypes.FETCH_COIN_FAIL, payload: 'Error' })
+         dispatch({ type: ActionsTypesCoin.FETCH_COIN_FAIL, payload: 'Error' })
       }
    }
 }
 
+// export function fetchCoinHistoryCustomDates(coinName: string, range: Range) {
+//    return async function (dispatch: Dispatch<CoinActions>) {
+//       dispatch({ type: ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_START })
+
+//       const { type, from, to } = range
+
+//       try {
+//          const response = await fetch(
+//             `http://localhost:3007/coins/coin-range-change/${coinName}?from=${from}&to=${to}&type=${type}`
+//          )
+//          if (response.ok) {
+//             const data = await response.json()
+//             console.log(data)
+//             dispatch({ type: ActionsTypesCoin.SET_COIN_RANGE_HOSTORY, payload: data.history })
+
+//             // dispatch()
+//          } else {
+//             throw new Error('Error')
+//          }
+//       } catch (error) {
+//          dispatch({ type: ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_FAIL, payload: 'Error' })
+//       }
+//    }
+// }
+
 export function fetchCoinHistoryChangeAction(coinName: string, range: Range, coinHistory: CoinHistory) {
    return async function (dispatch: Dispatch<CoinActions>) {
       const { type, from, to } = range
+      const cacheHistory = getLocalStorage('history-cache') || {}
 
-      if (coinHistory[type] !== undefined) {
+      if (coinHistory[type] !== undefined && cacheHistory[type]) {
          let updateHistory = {
             type: {
                ...coinHistory[type]
             }
          }
-         dispatch({ type: ActionsTypes.SET_COIN_RANGE_HOSTORY, payload: updateHistory })
-         // console.log(coinHistory[type])
+         dispatch({ type: ActionsTypesCoin.SET_COIN_RANGE_HOSTORY, payload: updateHistory })
       } else {
-         dispatch({ type: ActionsTypes.FETCH_COIN_HISTORY_CHANGE_START })
+         dispatch({ type: ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_START })
 
          try {
             const response = await fetch(
-               `http://localhost:3007/coins/coin-range-change/${coinName}?from=${from}&to=${to}&type=${type}`
+               `${coinHistoryRangeChange}/${coinName}?from=${from}&to=${to}&type=${type}`
             )
             if (response.ok) {
                const data = await response.json()
                // console.log(data)
-               dispatch({ type: ActionsTypes.SET_COIN_RANGE_HOSTORY, payload: data.history })
+               dispatch({ type: ActionsTypesCoin.SET_COIN_RANGE_HOSTORY, payload: data.history })
             } else {
                throw new Error('Error')
             }
          } catch (error) {
-            dispatch({ type: ActionsTypes.FETCH_COIN_HISTORY_CHANGE_FAIL, payload: 'Error' })
+            dispatch({ type: ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_FAIL, payload: 'Error' })
          }
       }
    }

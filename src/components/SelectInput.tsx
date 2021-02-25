@@ -10,7 +10,6 @@ interface Props {
 }
 
 function SelectInput({ defaultValue, handleChange, propContent, propValue, data, extraOption }: Props) {
-
    return (
       <select className=" form-select-sm" defaultValue={defaultValue} onChange={handleChange}>
          {data.map((item: any) => {

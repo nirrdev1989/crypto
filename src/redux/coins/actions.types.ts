@@ -1,6 +1,6 @@
-import { Coin, CoinHistory } from "../../models/Coin";
+import { Coin, CoinHistory, UpdateCoinPriceSocket } from "../../models/Coin";
 
-export enum ActionsTypes {
+export enum ActionsTypesCoin {
    FETCH_COIN_START = 'FETCH_COIN_START',
    FETCH_COIN_SUCCESS = 'FETCH_COIN_SUCCESS',
    FETCH_COIN_FAIL = 'FETCH_COIN_FAIL',
@@ -15,67 +15,59 @@ export enum ActionsTypes {
 }
 
 export interface UpdateCoinCurrentPriceSocketActionType {
-   type: ActionsTypes.UPDATE_COIN_CURRENT_PRICE_SOCKET,
-   payload: {
-      // change: number
-      updatedCurrentPrice: number
-      // time: string
-   }
+   type: ActionsTypesCoin.UPDATE_COIN_CURRENT_PRICE_SOCKET,
+   payload: UpdateCoinPriceSocket
 }
 
 
 export interface FetchCoinStartAsyncActionType {
-   type: ActionsTypes.FETCH_COIN_START
+   type: ActionsTypesCoin.FETCH_COIN_START
 }
 
 
 export interface FetchCoinSeccessAsyncActionType {
-   type: ActionsTypes.FETCH_COIN_SUCCESS
+   type: ActionsTypesCoin.FETCH_COIN_SUCCESS
    payload: {
       coin: Coin,
       history: CoinHistory
-      // currentPrice: number,
-      // lastPrice: number
-      // change: number
-      // changePresent: number
    }
 }
 
 export interface FetchCoinFailAsyncActionType {
-   type: ActionsTypes.FETCH_COIN_FAIL
+   type: ActionsTypesCoin.FETCH_COIN_FAIL
    payload: string
 }
 
 export interface SelectDateHistoryCoinActionType {
-   type: ActionsTypes.SELECT_DATE_HISTORY_COIN
+   type: ActionsTypesCoin.SELECT_DATE_HISTORY_COIN
    payload: string
 }
 
 export interface ResetCoinUpdatedSocketActionType {
-   type: ActionsTypes.RESET_COIN_UPDATED_SOCKET,
+   type: ActionsTypesCoin.RESET_COIN_UPDATED_SOCKET,
 }
 
 export interface SetCoinHistoryRangeActionType {
-   type: ActionsTypes.SET_COIN_RANGE_HOSTORY,
+   type: ActionsTypesCoin.SET_COIN_RANGE_HOSTORY,
    payload: CoinHistory
 }
 
 export interface FetchCoinHistoryChangeSatrtAsyncActionType {
-   type: ActionsTypes.FETCH_COIN_HISTORY_CHANGE_START
+   type: ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_START
 }
 
 export interface FecthCoinHistoryChangeFailAsyncActionType {
-   type: ActionsTypes.FETCH_COIN_HISTORY_CHANGE_FAIL,
+   type: ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_FAIL,
    payload: string
 }
 
 export interface FecthCoinHistoryChangeSuccessAsyncActionType {
-   type: ActionsTypes.FETCH_COIN_HISTORY_CHANGE_SUCCESS,
+   type: ActionsTypesCoin.FETCH_COIN_HISTORY_CHANGE_SUCCESS,
    payload: CoinHistory
 }
 
 export interface ResetCoinActionType {
-   type: ActionsTypes.RESET_COIN
+   type: ActionsTypesCoin.RESET_COIN
 
 }
 

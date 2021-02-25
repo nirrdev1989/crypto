@@ -1,5 +1,5 @@
 import { CoinBaseInfo } from "../../models/Coin";
-import { ActionsTypes, SideListActions } from "./actions.types";
+import { ActionsTypesSideList, SideListActions } from "./actions.types";
 
 interface SideListInitialState {
    open: boolean
@@ -13,12 +13,12 @@ const INITIAL_STATE_SIDE_LIST: SideListInitialState = {
 
 export default function sideListReducer(state = INITIAL_STATE_SIDE_LIST, action: SideListActions): SideListInitialState {
    switch (action.type) {
-      case ActionsTypes.TOGGLE_SIDE_LIST:
+      case ActionsTypesSideList.TOGGLE_SIDE_LIST:
          return {
             ...state,
             open: !state.open
          }
-      case ActionsTypes.CURRENT_COIN_SELECTED:
+      case ActionsTypesSideList.CURRENT_COIN_SELECTED:
          return {
             ...state,
             currentCoinSelected: { ...action.payload }

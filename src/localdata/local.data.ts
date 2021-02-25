@@ -1,5 +1,9 @@
 import { CoinBaseInfo } from "../models/Coin";
 
+export const rangesArray: string[] = [
+   '1h', '3h', '6h', '12h', '24h', '3day', 'week', '2week', 'mount', '3mount', '6mount', 'year'
+]
+
 export interface Range {
    from: number
    to: number
@@ -22,9 +26,29 @@ export const ranges: RangeData = {
       from: now - hour,
       to: now
    },
+   '3h': {
+      type: '3h',
+      from: now - (hour * 3),
+      to: now
+   },
+   '6h': {
+      type: '6h',
+      from: now - (hour * 6),
+      to: now
+   },
+   '12h': {
+      type: '12h',
+      from: now - (hour * 12),
+      to: now
+   },
    '24h': {
       type: '24h',
       from: now - day,
+      to: now
+   },
+   '3day': {
+      type: '3day',
+      from: now - (day * 3),
       to: now
    },
    'week': {
@@ -32,9 +56,24 @@ export const ranges: RangeData = {
       from: now - (day * 7),
       to: now
    },
+   '2week': {
+      type: '2week',
+      from: now - (day * 14),
+      to: now
+   },
    'mount': {
       type: 'mount',
       from: now - mount,
+      to: now
+   },
+   '3mount': {
+      type: '3mount',
+      from: now - (mount * 3),
+      to: now
+   },
+   '6mount': {
+      type: '6mount',
+      from: now - (mount * 6),
       to: now
    },
    'year': {
@@ -65,7 +104,12 @@ export const tabsArray: Tabs[] = [{
 }, {
    value: 'live',
    content: 'Live'
-}]
+},
+   //  {
+   //    value: 'custom-dates',
+   //    content: 'Custom-dates'
+   // }
+]
 
 
 
@@ -93,13 +137,15 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    name: "Polkadot",
    color: "#d64cA8",
    iconUrl: "https://cdn.coinranking.com/RsljYqnbu/polkadot.svg"
-}, {
-   id: 8,
-   symbol: "USDT",
-   name: "Tether",
-   color: "#22a079",
-   iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg"
-}, {
+},
+//  {
+//    id: 8,
+//    symbol: "USDT",
+//    name: "Tether",
+//    color: "#22a079",
+//    iconUrl: "https://cdn.coinranking.com/mgHqwlCLj/usdt.svg"
+// }, 
+{
    id: 9,
    symbol: "ADA",
    name: "Cardano",
@@ -126,16 +172,18 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 4,
    symbol: "BCH",
-   name: "Bitcoin Cash",
+   name: "Bitcoin-Cash",
    color: "#8dc451",
    iconUrl: "https://cdn.coinranking.com/By8ziihX7/bch.svg"
-}, {
-   id: 5858,
-   symbol: "WETH",
-   name: "Wrapped Ether",
-   color: "#303030",
-   iconUrl: "https://cdn.coinranking.com/KIviQyZlt/weth.svg"
-}, {
+},
+// {
+//    id: 5858,
+//    symbol: "WETH",
+//    name: "Wrapped-Ethereum",
+//    color: "#303030",
+//    iconUrl: "https://cdn.coinranking.com/KIviQyZlt/weth.svg"
+// },
+{
    id: 6,
    symbol: "XLM",
    name: "Stellar",
@@ -162,7 +210,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 10607,
    symbol: "WBTC***",
-   name: "Wrapped BTC",
+   name: "wrapped-bitcoin",
    color: '#808080',
    iconUrl: "https://cdn.coinranking.com/o3-8cvCHu/wbtc[1].svg"
 }, {
@@ -183,13 +231,15 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
    name: "Aave",
    color: "#B6509E",
    iconUrl: "https://cdn.coinranking.com/4bpYKqV4X/AAVE.png"
-}, {
-   id: 5331,
-   symbol: "HEX",
-   name: "HEX",
-   color: "#ffcd00",
-   iconUrl: "https://cdn.coinranking.com/iseN4Am58/hex-vector.svg"
-}, {
+},
+// {
+//    id: 5331,
+//    symbol: "HEX",
+//    name: "HEX",
+//    color: "#ffcd00",
+//    iconUrl: "https://cdn.coinranking.com/iseN4Am58/hex-vector.svg"
+// }, 
+{
    id: 5,
    symbol: "EOS",
    name: "EOS",
@@ -204,7 +254,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 4875,
    symbol: "BSV",
-   name: "Bitcoin SV",
+   name: "Bitcoin-Cash-SV",
    color: "#eab300",
    iconUrl: "https://cdn.coinranking.com/388ehh6kq/bitcoin-sv-1.svg"
 }, {
@@ -228,7 +278,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 78340,
    symbol: "GRT***",
-   name: "The Graph",
+   name: "The-Graph",
    color: '#808080',
    iconUrl: "https://cdn.coinranking.com/g6FVr-7Vs/grt.png"
 }, {
@@ -246,13 +296,13 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 96,
    symbol: "THETA",
-   name: "Theta Token",
+   name: "Theta-Token",
    color: "#1b1f2a",
    iconUrl: "https://cdn.coinranking.com/HJHg2k9Lf/theta.svg"
 }, {
    id: 71,
    symbol: "HT",
-   name: "Huobi Token",
+   name: "Huobi-Token",
    color: "#2daadf",
    iconUrl: "https://cdn.coinranking.com/ryFpQe0c7/ht.svg"
 }, {
@@ -276,7 +326,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 10883,
    symbol: "SNX",
-   name: "Synthetix Network",
+   name: "Synthetix-Network",
    color: '#808080',
    iconUrl: "https://cdn.coinranking.com/c2WntZSPs/snx-synthetix.png"
 }, {
@@ -288,7 +338,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 70974,
    symbol: "AVAX",
-   name: "Avalanche",
+   name: "Avalanche-2",
    color: "#e84242",
    iconUrl: "https://cdn.coinranking.com/S0C6Cw2-w/avax-avalanche.png"
 }, {
@@ -306,7 +356,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 62569,
    symbol: "FTT**",
-   name: "FTX Token",
+   name: "FTX-Token",
    color: '#808080',
    iconUrl: "https://cdn.coinranking.com/WyBm4_EzM/ftx-exchange.svg"
 }, {
@@ -336,7 +386,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 4303,
    symbol: "CEL",
-   name: "Celsius Network",
+   name: "Celsius-Network",
    color: "#f37425",
    iconUrl: "https://cdn.coinranking.com/XPU7TeCYD/New-CEL.png"
 }, {
@@ -360,7 +410,7 @@ export const coninsBaseInfo: CoinBaseInfo[] = [{
 }, {
    id: 16,
    symbol: "ETC",
-   name: "Ethereum Classic",
+   name: "Ethereum-Classic",
    color: "#699070",
    iconUrl: "https://cdn.coinranking.com/rJfyor__W/etc.svg"
 }, {

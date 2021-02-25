@@ -4,13 +4,15 @@ import { logger } from "redux-logger";
 import thunk from 'redux-thunk'
 import tabsReducer from "./tabs/reducers";
 import sideListReducer from "./side-list/reducers";
+import modalReducer from "./modal/reducers";
 
 const rootReducer = combineReducers({
    coin: coinReducer,
    coinHistory: coinHostoryReducer,
    updatedCurrentPrice: updateCoinCurrentPriceSocketReducer,
    tabs: tabsReducer,
-   sideList: sideListReducer
+   sideList: sideListReducer,
+   modal: modalReducer
 })
 
 const middleWeres = [thunk]

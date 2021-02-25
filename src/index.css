@@ -42,7 +42,7 @@ a:hover {
   opacity: 1;
 } */
 
-.card, .card-header:first-child {
+.card, .card-header:first-child, .form-control {
   border-radius: 0px;
 }
 
@@ -51,6 +51,12 @@ a:hover {
   background-color: var(--primary-second);
   color: var( --primary-white);
   margin: 0.5rem;
+}
+
+.form-control-sm {
+  border-radius: 2px;
+  background-color: var(--primary-second);
+  color: var( --primary-white);
 }
 
 .app {

@@ -13,21 +13,18 @@ interface Props {
    currentPrice: number
    color: string
    iconUrl: string
-   // currentPriceUpdated: number
-   // currentPriceUpdatedChange: number
 }
 
 function CoinHeader({
    loadStatus,
    currentPrice,
    iconUrl,
-   // currentPriceUpdated,
-   // currentPriceUpdatedChange,
    color
 }: Props) {
 
    const dispatch = useDispatch()
    const currentTab = useSelector((state: RootState) => state.tabs.currentTab)
+   const priceUpdated = useSelector((state: RootState) => state.updatedCurrentPrice.currentPrice)
 
    return (
       <h5 className="my-0 fw-normal card-chart-header">
@@ -47,7 +44,7 @@ function CoinHeader({
             <div>
                <span style={{ marginRight: '0.3rem' }}>
                   {/* ${fixNumber(currentPriceUpdated, 3) || currentPrice} */}
-                  ${currentPrice}
+                  ${priceUpdated || currentPrice}
                </span>
                <ImageIcon
                   style={{ width: 30, height: 30 }}
