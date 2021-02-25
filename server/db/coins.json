@@ -1,0 +1,284 @@
+{
+   "Bitcoin": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Ethereum": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Binance Coin": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Polkadot": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Cardano": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "XRP": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Litecoin": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Chainlink": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Bitcoin-Cash": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Stellar": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "USDC": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Dogecoin": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Uniswap": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "wrapped-bitcoin": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Terra": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Cosmos": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Aave": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "EOS": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Monero": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Bitcoin-Cash-SV": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "IOTA": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "TRON": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Algorand": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "The-Graph": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Tezos": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "OKB": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Theta-Token": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Huobi-Token": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "VeChain": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "NEO": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "NEM": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Synthetix-Network": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Dash": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Avalanche-2": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Crypto.com Chain": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Solana": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "FTX-Token": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Maker": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "SUSHI": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Filecoin": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Dai": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Celsius-Network": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Kusama": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Zcash": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Compound": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "Ethereum-Classic": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   },
+   "BUSD ": {
+      "date": 0,
+      "price": 0,
+      "time": 0,
+      "timeStamp": 0
+   }
+}
