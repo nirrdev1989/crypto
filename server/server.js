@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 const io = require("socket.io")(server, {
    cors: {
       origin: "*",
-      //   methods: ["GET", "POST"],
+        methods: ["GET"]
       //   allowedHeaders: ["my-custom-header"],
       //   credentials: true
    }
@@ -90,7 +90,7 @@ io.on('connection', (socket) => {
 
 app.use('/coins', coinsRouter)
 
-if (process.env.MODE === 'prod') {
+if (process.env.MODE === 'production') {
    app.get('/*', (request, response) => {
       response.sendFile(path.join(__dirname, 'build', 'index.html'));
    })
