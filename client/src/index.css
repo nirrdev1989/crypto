@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+:root {
+  --primary-full: rgba(0, 0, 0, 0.9);
+  --primary-second: rgb(32, 32, 32);
+  --primary-third: rgb(49, 49, 49);
+  --primary-white: rgb(255, 255, 255);
+  --primary-text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue; 
+  --main-background: url("https://www.cpacanada.ca/-/media/site/operational/rg-research-guidance-and-support/images/02250-rg.jpg");
+}
+
+[data-theme="light"] {
+  --primary-full: rgb(255, 255, 255);
+  --primary-second: rgb(235, 235, 235);
+  --primary-third: rgb(255, 255, 255);
+  --primary-white: rgb(31, 31, 31);
+  --primary-text-shadow: 0;
+  --main-background: url("https://blockchainstock.azureedge.net/features/7B13862B8D05A4CC0C48D1875635B6A884C93AA9A49282FA4793E28ABACB729A.jpg")
+}
+
+.center-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(240, 28, 99);
+}
+
+.a.active, .a.p-2:focus {
+  color: rgb(240, 28, 99);
+}
+
+.btn {
+  border-radius: 2px;
+}
+
+.card, .card-header:first-child, .form-control {
+  border-radius: 0px;
+}
+
+.form-select-sm {
+  border-radius: 2px;
+  background-color: var(--primary-second);
+  color: var( --primary-white);
+  margin: 0.5rem;
+}
+
+.form-control-sm {
+  border-radius: 2px;
+  background-color: var(--primary-second);
+  color: var( --primary-white);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.theme-icon {
+  font-size: '25px'; 
+  margin-left: '1rem';
+}
+
+#root > header > div > span:nth-child(2) > svg{
+  cursor: pointer; 
+}

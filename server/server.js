@@ -3,6 +3,7 @@ const axios = require('axios')
 const cors = require('cors')
 const path = require('path')
 const http = require('http')
+const session = require('express-session')
 
 require('dotenv').config()
 const { fixNumber, convertToDate, convertTotime, getRange } = require('./utils/utils')
@@ -20,39 +21,56 @@ const singleCoin = "https://coinranking1.p.rapidapi.com/coin/"
 
 app.set('trust proxy', 1)
 
+app.use(session({
+   secret: process.env.SESSION_SECRET,
+   resave: false,
+   saveUninitialized: false,
+   // cookie: { secure: true },
+   sameSite: 'strict'
+}))
+
 if (process.env.MODE === 'production') {
-   const helemt = require('helmet')
-   app.use(helemt())
+   // const helemt = require('helmet')
+   const compression = require('compression')
+   // app.use(helemt())
+   app.use(compression())
    app.disable('x-powered-by')
 }
 
 app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json({ limit: '15kb' }))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'build')));
 
 
+app.use((request, response, next) => {
+   console.log(new Date().toISOString())
+
+   request.session.user = 'ok'
+   next()
+})
+
 const io = require("socket.io")(server, {
    cors: {
-      origin: "*",
-        methods: ["GET"]
+      origin: process.env.MOD === 'production' ? process.env.PROD_URL : "*",
+      methods: ["GET"],
       //   allowedHeaders: ["my-custom-header"],
-      //   credentials: true
+      credentials: true
    }
 });
 
 
 io.on('connection', (socket) => {
-   console.log('SOCKET CONNECTED')
+   console.log('SOCKET CONNECTED', socket)
    let repeat
    socket.on('coinLastHistory', ({ id, name }, callBack) => {
-      console.log(id, name)
+      // console.log(id, name)
       repeat = setInterval(() => {
          axios.get(singleCoin + id, { headers: headers.headersCoinRankingApi })
             .then((result) => {
+
                let getCurrentCoinDB = DB_SERVICE.getItemByName(name)
                let currentPrice = fixNumber(result.data.data.coin.price, 3)
-               // console.log(currentPrice, getCurrentCoinDB)
                let change = getRange(getCurrentCoinDB.price, currentPrice)
                let onePresent = getCurrentCoinDB.price / 100
                let changePresent = change / onePresent
