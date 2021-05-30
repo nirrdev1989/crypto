@@ -1,6 +1,12 @@
 # crypto
 crypto tracker
 
+![](client/src/screenshots/C1.png)
+![](client/src/screenshots/C2.png)
+![](client/src/screenshots/C3.png)
+![](client/src/screenshots/C4.png)
+![](client/src/screenshots/C5.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
